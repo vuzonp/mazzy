@@ -1,0 +1,12 @@
+# humanstxt.org/
+# The humans responsible & technology colophon
+
+
+# TEAM
+
+	Thomas GIRARD -- Developper -- https://twitter.com/shrewStudio
+
+
+# TECHNOLOGY COLOPHON
+
+	Mazzy Framework
