@@ -30,10 +30,10 @@ namespace Shrew\Mazzy\Lib\Report;
 /**
  * Permet d'effectuer des mesures de performance sur partie ou totalité du code
  *  
- * @author      Thomas Girard <thomas@shrewstudio.com>
- * @license     http://opensource.org/licenses/MIT
- * @version     v0.1.0-alpha2
- * @since       2014-04-12
+ * @author  Thomas Girard <thomas@shrewstudio.com>
+ * @license http://opensource.org/licenses/MIT
+ * @version v0.1.0-alpha2
+ * @since   2014-04-13
  */
 class Bench
 {
