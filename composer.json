@@ -1,0 +1,44 @@
+{
+    "name": "shrew/mazzy",
+    "description": "Basic framework for quick start (personnals) projects",
+    "version": "v0.1.0-alpha2",
+    "type": "project",
+    "keywords": ["framework", "mazzy"],
+    "homepage": "https://github.com/shrewstudio/mazzy/wiki",
+    "time": "2014-04-13",
+    "license": "MIT",
+    
+    "authors": [
+        {
+            "name": "Thomas Girard",
+            "email": "thomas@shrewstudio.com",
+            "homepage": "http://shrewstudio.com",
+            "role": "Developper"
+        }
+    ],
+    
+    "support": {
+    	"email": "thomas@shrewstudio.com"
+    },
+    
+    "require-dev": {
+    
+    },
+    "require": {
+    	"php": ">=5.4.20",
+        "ezyang/htmlpurifier": "dev-master",
+        "erusev/parsedown": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "Shrew\\Mazzy\\": "src/"
+        },
+        "classmap": ["src/"]
+    },
+    "repositories": [
+    	{
+    		"type": "vcs",
+    		"url": "https://github.com/shrewstudio/mazzy"
+    	}
+    ]
+}
