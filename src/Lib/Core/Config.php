@@ -29,7 +29,7 @@ namespace Shrew\Mazzy\Lib\Core;
 /**
  * Gestion des options de configuration de l'application
  *
- * @todo    Envisager de rendre cette librairie indépendante de *Core* afin 
+ * @todo    Envisager d'isoler cette librairie indépendante de *Core* afin 
  *          d'éviter des dépendances trop fortes envers ce paquet.
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
@@ -78,8 +78,7 @@ class Config
                 ? self::ENV_DEVELOPPMENT 
                 : self::ENV_PRODUCTION;
     }
-    
-    
+
     /**
      * Configuration de l'application
      * 
