@@ -60,8 +60,7 @@ class Flash implements \Countable
     const WRITE = 1;
 
     /**
-     * Instance de session
-     * @var \Shrew\Framework\Lib\Session
+     * @var \Shrew\Mazzy\Lib\Storage\Session
      */
     protected $session;
 
