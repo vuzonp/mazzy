@@ -26,6 +26,8 @@
 
 namespace Shrew\Mazzy\Lib\Core;
 
+use \Shrew\Mazzy\Lib\RouterException;
+
 /**
  * Exception destinées a être communiquées au client.
  * 
@@ -37,7 +39,7 @@ namespace Shrew\Mazzy\Lib\Core;
  * @version v0.1.0-alpha2
  * @since   2014-04-13
  */
-class HttpException extends \DomainException
+class HttpException extends RouterException
 {
     public function __construct($message, $code = 500, $previous = null)
     {

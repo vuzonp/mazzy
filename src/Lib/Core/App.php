@@ -27,6 +27,7 @@
 namespace Shrew\Mazzy\Lib\Core;
 
 use Shrew\Mazzy\Lib\Report\Log;
+use \Shrew\Mazzy\Lib\RouterException;
 use Shrew\Mazzy\Lib\Route\RouterInterface;
 
 
@@ -198,7 +199,7 @@ class App
 
         // Exception exigeant d'afficher un message d'erreur http spécifique
         // (erreurs 404, accès interdits, mauvaise méthode, etc.)
-        catch (\DomainException $e) {
+        catch (RouterException $e) {
             Log::debug($e->getMessage(), $e->getFile(), $e->getLine());
             $this->sendError($e);
         }
