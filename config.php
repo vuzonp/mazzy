@@ -24,4 +24,95 @@
  * SOFTWARE.
  */
 
-// [todo]: Mettre en place les options de configuration de l'application
+use Shrew\Mazzy\Lib\Core\Config;
+
+/**
+ * Fichier de configuration de l"application
+ *
+ * La configuration est gérée par la classe App et permet de spécifier
+ * l'environnement ciblé (prodution / développement / les deux).
+ *
+ * L'environnement d'éxécution est détecté par l'application elle-même à chaque
+ * requête.
+ */
+
+ 
+//------------------------------------------------------------------------------
+// Bases de données
+//------------------------------------------------------------------------------
+
+Config::set("database", array(
+    
+    // Base de donnée principale
+    "main" => array(
+        "dsn" => "mysql:host=localhost;port=3600;dbname=alagos",
+        "user" => "JohnDoe",
+        "password" => "XXXXXXX",
+        "options" => array(PDO::ATTR_PERSISTENT => false)
+    )
+    
+    // Base de données complémentaires...
+/* "secondary" => array(
+        "dsn" => "mysql:host=localhost;port=3600;dbname=alagos",
+        "user" => "JohnDoe",
+        "password" => "XXXXXXX",
+        "options" => array(PDO::ATTR_PERSISTENT => false)
+    )
+/**/
+));
+
+
+//------------------------------------------------------------------------------
+// Sessions
+//------------------------------------------------------------------------------
+
+Config::set("session", array(
+    "name" => "mazzy_sess",
+    "life" => 86400, // 86400 = 24h00
+    "domain" => null,
+    "path" => "/",
+));
+
+
+//------------------------------------------------------------------------------
+// Log
+//------------------------------------------------------------------------------
+
+Config::set("log", array(
+    "directory" => "/tmp",
+    "minLevel" => Log::DEBUG,
+));
+
+// Environnement de production :
+Config::set("log", array(
+    "minLevel" => Log::WARNING,
+), Config::ENV_PRODUCTION);
+
+
+//------------------------------------------------------------------------------
+// Localisation
+//
+// (Les locales doivent être installées au niveau du serveur pour pouvoir les
+// utiliser correctement)
+//------------------------------------------------------------------------------
+
+Config::set("locale", array(
+    "default" => "fr_FR", // Locale par défaut du site web
+    "translations" => array("en_US") // Locales secondaires
+));
+
+
+//------------------------------------------------------------------------------
+// Rendu (mVc)
+//------------------------------------------------------------------------------
+
+Config::set("view", array(
+    
+    // Thème par défaut de l'application
+    "defaultTheme" => "default",
+    
+    // Chemin à utilisé pour les contenus statiques du site
+    "assets" => "/assets/"
+    // "assets" => "http://cdn.monsite.com/"
+));
+
