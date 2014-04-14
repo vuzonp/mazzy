@@ -24,4 +24,51 @@
  * SOFTWARE.
  */
 
-// [todo]: Charger et initialiser l'application
+use Shrew\Mazzy\Lib\Core\App;
+use Shrew\Mazzy\Lib\Core\Config;
+use Shrew\Mazzy\Lib\DataBase\DB;
+use Shrew\Mazzy\Lib\Report\Log;
+
+if (defined("APP_WWW") === false) {
+    exit();
+}
+
+/**
+ *  Répertoire racine du projet
+ */
+define("APP_ROOT", __DIR__);
+define("APP_CONFIG", APP_ROOT . "/config");
+
+try {
+
+//------------------------------------------------------------------------------
+    
+    // Autoloader PSR-4
+    require APP_ROOT . "/vendor/autoload.php";
+
+    // Configuration de l'application
+    require APP_CONFIG . "/config.php";
+
+    // Initialisation de l'application
+    $app = new App();
+
+    // Base(s) de données
+    DB::attachMany(Config::get("database"));
+
+    // Vers l'infini et au-delà !!
+    $app->setRoute(include APP_CONFIG . "routes.php");
+    $app->run();
+
+//------------------------------------------------------------------------------
+    
+// Récupération des exceptions qui se seraient échappées :
+} catch (Exception $ex) {
+    
+    Log::alert($e->getMessage(), $e->getFile(), $e->getLine());
+    
+    if (Config::isDeveloppment()) {
+        trigger_error($e->getMessage(), E_USER_ERROR);
+    } else {
+        echo "« Houston, we've had a problem »";
+    }
+}
