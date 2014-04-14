@@ -115,9 +115,9 @@ class Session implements \ArrayAccess, \Iterator
      * @param string $key Clé de la rangée
      * @return mixed
      */
-    public function get($key)
+    public function get($key, $filter = FILTER_DEFAULT, $options = null)
     {
-        return isset($_SESSION[$key]) ? $_SESSION[$key] : null;
+        return filter_input(INPUT_SESSION, $key, $filter, $options);
     }
 
     /**
@@ -164,9 +164,9 @@ class Session implements \ArrayAccess, \Iterator
             );
         }
     }
-
+      
     // Iterators
-    //-------------------------------------------------------------------------
+    //--------------------------------------------------------------------------
     
     function rewind()
     {
