@@ -1,7 +1,7 @@
 mazzy
 =====
 
-**Projet de framework basique en php >=5.4 pour démarrage rapide de projets.**
+**Projet de framework basique en php >=5.5 pour démarrage rapide de projets.**
 
 Mazzy framework est destiné à réaliser des projets de petites et moyenne 
 envergure. L'objectif est de permettre le déploiement sur serveurs mutualisés
