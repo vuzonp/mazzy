@@ -37,6 +37,9 @@
  * `../bootstrap.php`
  */
 
+/**
+ *  Répertoire de la racine web
+ */
 define("APP_WWW", __DIR__);
 
 require "./bootstrap.php";
