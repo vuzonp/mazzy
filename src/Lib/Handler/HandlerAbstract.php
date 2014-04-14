@@ -44,7 +44,7 @@ use Shrew\Mazzy\Lib\Template\TemplateException;
  */
 abstract class HandlerAbstract
 {
-    
+
     /**
      * Charge une nouvelle instance de template
      * 
@@ -130,7 +130,7 @@ abstract class HandlerAbstract
         }
         return false;
     }
-    
+
     /**
      * Gestionnaire d'erreurs http
      * 
@@ -140,7 +140,7 @@ abstract class HandlerAbstract
     protected function sendError($message, $code)
     {
         $res = $this->getResponse();
-        
+
         // Tente d'envoyer l'erreur par un template
         try {
 
@@ -149,26 +149,23 @@ abstract class HandlerAbstract
             $tpl->code = $code;
 
             $res->render($tpl);
-            
-        // Si aucun template n'est disponible pour l'affichage des erreurs
-        // On la retourne au format texte.
+
+            // Si aucun template n'est disponible pour l'affichage des erreurs
+            // On la retourne au format texte.
         } catch (TemplateException $e) {
-            
+
             Log::debug($e->getMessage(), $e->getFile(), $e->getLine());
             Log::notice($message);
-            
+
             $res->setStatus($code);
             $res->setType("text");
             $res->setBody($message);
             $res->send();
-                 
-        // On ferme l'application
+
+            // On ferme l'application
         } finally {
             exit();
         }
     }
-
-    
-
 
 }
