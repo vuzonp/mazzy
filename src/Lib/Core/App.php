@@ -168,7 +168,7 @@ class App
 
         $domain = "alagos";
         bindtextdomain($domain, APP_ROOT . "/locales");
-        bind_textdomain_codeset($domain, APP_CHARSET);
+        bind_textdomain_codeset($domain, "UTF-8");
 
         textdomain($domain);
     }
@@ -180,12 +180,12 @@ class App
      */
     final protected function initCharset()
     {
-        mb_internal_encoding(APP_CHARSET);
+        mb_internal_encoding("UTF-8");
         mb_language("uni");
 
-        iconv_set_encoding("internal_encoding", APP_CHARSET);
-        iconv_set_encoding("input_encoding", APP_CHARSET);
-        iconv_set_encoding("output_encoding", APP_CHARSET);
+        iconv_set_encoding("internal_encoding", "UTF-8");
+        iconv_set_encoding("input_encoding", "UTF-8");
+        iconv_set_encoding("output_encoding", "UTF-8");
     }
 
     /**
