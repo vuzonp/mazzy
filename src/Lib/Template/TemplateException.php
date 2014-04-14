@@ -34,7 +34,7 @@ namespace Shrew\Mazzy\Lib\Template;
  * @version v0.1.0-alpha2
  * @since   2014-04-14
  */
-class TemplateException extends \Shrew\Mazzy\Lib\Core\AppException
+class TemplateException extends \Exception
 {
 
 }
