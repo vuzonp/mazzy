@@ -25,6 +25,8 @@
  */
 
 use Shrew\Mazzy\Lib\Core\Config;
+use Shrew\Mazzy\Lib\Report\Log;
+
 
 /**
  * Fichier de configuration de l"application

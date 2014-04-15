@@ -56,7 +56,7 @@ try {
     DB::attachMany(Config::get("database"));
 
     // Vers l'infini et au-delà !!
-    $app->setRoute(include APP_CONFIG . "routes.php");
+    $app->setRoute(include APP_CONFIG . "/routes.php");
     $app->run();
 
 //------------------------------------------------------------------------------

@@ -42,5 +42,5 @@
  */
 define("APP_WWW", __DIR__);
 
-require "./bootstrap.php";
-// require "../bootstrap.php";
+require "./mazzy.php";
+// require "../mazzy.php";
