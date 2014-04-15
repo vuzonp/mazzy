@@ -74,5 +74,20 @@ class Router extends PHPUnit_Framework_TestCase
         $router->find("/");
     }
     
+    public function testGoodRouteWithoutAlias()
+    {
+        $router = new Shrew\Mazzy\Lib\Route\Router();
+        $router->pushNamespace("Shrew\Mazzy\Example\Handler");
+        $router->set("/", "Foo", "bar");
+        $this->assertEquals($router->find("/"), true);
+    }
     
+    public function testGoodRouteWithAlias()
+    {
+        $router = new Shrew\Mazzy\Lib\Route\Router();
+        $router->pushNamespace("Shrew\Mazzy\Example\Handler");
+        $router->setAliases(":id", "[0-9]{1,11}");
+        $router->set("/:id", "Foo", "bar");
+        $this->assertEquals($router->find("/:id"), true);
+    }
 }
