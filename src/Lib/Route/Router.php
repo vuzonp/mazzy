@@ -69,7 +69,7 @@ class Router implements RouterInterface
      *
      * @param string $namespace Espace de nom sans `\\` final
      */
-    public function pushNamespace($namespace)
+    final public function pushNamespace($namespace)
     {
         $this->namespaces->push("$namespace\\");
     }
@@ -81,7 +81,7 @@ class Router implements RouterInterface
      * @param string $class Nom de la classe cible
      * @param string $method Nom de la méthode de classe cible
      */
-    public function set($pattern, $class, $method)
+    final public function set($pattern, $class, $method)
     {
         $this->routes[$pattern] = array(ucfirst($class), $method);
     }
@@ -94,7 +94,7 @@ class Router implements RouterInterface
      * @param string $needle
      * @param string $regex
      */
-    public function setAliases($needle, $regex)
+    final public function setAliases($needle, $regex)
     {
         $this->aliases["needles"][] = $needle;
         $this->aliases["regex"][] = "($regex)";
