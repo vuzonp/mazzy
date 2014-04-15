@@ -76,7 +76,7 @@ class Auth
      * Liste des groupes disponibles
      * @var array 
      */
-    private static $availableRoles;
+    private static $availableRoles = array("guest" => self::PROHIBIT);
 
     /**
      * Groupe par défaut pour un utilisateur anonyme
@@ -109,14 +109,16 @@ class Auth
     /**
      * Définit le rôle par défaut à appliquer à tout utilisateur inconnu
      * @param string $role Un rôle déjà définit
-     * @throws AppException Lorsque le rôle n'a pas été défini
+     * @return boolean Vrai quand le groupe peut être déclaré par défaut
+     * @throws \DomainException Lorsque le rôle n'a pas été défini
      */
     public static function setDefaultRole($role)
     {
-        if (!isset(self::roleExists($role))) {
-            throw new AppException("Le groupe utilisateur *$role* n'existe pas");
+        if ((self::roleExists($role)) === false) {
+            throw new \DomainException("Le groupe utilisateur *$role* n'existe pas", 500);
         }
         self::$defaultRole = $role;
+        return true;
     }
 
     /**
@@ -136,6 +138,27 @@ class Auth
     public static function roleExists($role)
     {
         return isset(self::$availableRoles[$role]);
+    }
+    
+    /**
+     * Supprime un rôle
+     * 
+     * @param string $role
+     * @return boolean
+     */
+    public static function deleteRole($role)
+    {
+        unset(self::$availableRoles[$role]);
+        return true;
+    }
+    
+    /**
+     * Replace la liste des rôles à l'état initial
+     */
+    public static function resetRoles()
+    {
+        self::$defaultRole = "guest";
+        self::$availableRoles = array("guest" => self::PROHIBIT);
     }
 
     /**
@@ -175,7 +198,7 @@ class Auth
      */
     public function setAllowed($role, $rights)
     {
-        if (!isset(self::roleExists($role))) {
+        if (self::roleExists($role) === false) {
             throw new AppException("Le groupe utilisateur *$role* n'existe pas");
         }
         $this->roles[$role] = $rights;
