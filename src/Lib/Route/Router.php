@@ -143,7 +143,7 @@ class Router implements RouterInterface
                 }
             }
             // Aucune route correspondante
-            throw new RouterpException("Page `$path` introuvable", 404);
+            throw new RouterException("Page `$path` introuvable", 404);
         }
     }
 
@@ -158,19 +158,26 @@ class Router implements RouterInterface
     private function launch($className, $methodName = null, Array $params = array())
     {
         // Cherche l'espace de nom de la classe
+        $found = false;
         foreach ($this->namespaces as $namespace) {
             $c = $namespace . $className;
             if (class_exists($c)) {
+                $found = true;
                 $className = $c;
                 break;
             }
         }
+        // La classe n'existe pas
+        if ($found === false) {
+            throw new \LogicException("La classe contrôleur `$className` n'existe pas", 500);
+        }
+        else {
+            $controller = new $className();
 
-        $controller = new $className();
-
-        if (!method_exists($controller, $methodName)) {
-            throw new AppException("La methode `$className::$methodName` "
-            . "n'est pas disponible", 500);
+            if (!method_exists($controller, $methodName)) {
+                throw new \LogicException("La méthode `$className::$methodName` "
+                . "n'est pas disponible", 500);
+            }
         }
 
         return call_user_func_array(array($controller, $methodName), $params);

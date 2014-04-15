@@ -22,16 +22,19 @@
     },
     
     "require-dev": {
-    
+        "phpunit/phpunit": "4.0.*",
+        "phpunit/php-invoker" : "~1.1"
     },
     "require": {
     	"php": ">=5.5.0",
         "ezyang/htmlpurifier": "dev-master",
         "erusev/parsedown": "dev-master"
     },
+    
     "autoload": {
         "psr-4": {
-            "Shrew\\Mazzy\\": "src/"
+            "Shrew\\Mazzy\\": "src/",
+            "Shrew\\Mazzy\\Test\\": "tests"
         },
         "classmap": ["src/"]
     },
