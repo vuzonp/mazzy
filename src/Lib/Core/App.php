@@ -232,7 +232,7 @@ class App
         $code = (is_int($code)) ? $code : $e->getCode();
 
         // Préparation du message à adresser au client
-        if ($this->getEnv() === self::ENV_DEVELOPPMENT) {
+        if (Config::isDeveloppment()) {
             $msg = $e->getMessage() . " [file: " . $e->getFile() . ":" . $e->getLine() . "]";
         } else {
             $msg = _("Oups, il y a un problème !");
