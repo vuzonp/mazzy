@@ -26,7 +26,12 @@
 
 namespace Shrew\Mazzy\Lib\Handler;
 
-use Shrew\Mazzy\Lib\Security\Token;
+use Shrew\Mazzy\Lib\Core\Request;
+use Shrew\Mazzy\Lib\Core\Response;
+use Shrew\Mazzy\Lib\Input\Input;
+use Shrew\Mazzy\Lib\Report\Log;
+use Shrew\Mazzy\Lib\Template\Template;
+use Shrew\Mazzy\Lib\Template\TemplateException;
 
 
 /**
@@ -37,32 +42,97 @@ use Shrew\Mazzy\Lib\Security\Token;
  * @version v0.1.0-alpha2
  * @since   2014-04-14
  */
-class Handler extends HandlerAbstract
+class Handler
 {
+
+    protected $request;
+    protected $response;
+    protected $input;
+
+    public function __construct()
+    {
+        $this->request = Request::getInstance();
+        $this->response = Response::getInstance();
+        $this->input = Input::getRequests();
+    }
+
     
     /**
-     * Génère un jeton de sécurité
+     * Permet de vérifier que la méthode http utilisée correspond bien à l'une
+     * de celles passées en arguments.
      * 
-     * @param string $label 
-     * @return string Le jeton généré
+     * @return boolean
      */
-    protected function generateToken($label)
+    final protected function verifyHttpMethod()
     {
-        $token = new Token($label);
-        return $token->generate();
+        $length = func_num_args();
+        $method = $this->request->getMethod();
+        for ($i = 0; $i < $length; $i++) {
+            if ($method === strtoupper(func_get_arg($i))) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
-     * Vérifie la validité d'un token
+     * Effectue une redirection http
      * 
-     * @param string $label Identifiant du token à comparer
-     * @param string $value Valeur du token reçu 
-     * @return boolean
+     * @param string $url
+     * @param integer $status
      */
-    protected function verifyToken($label, $value)
+    final protected function redirect($url, $status = 302)
     {
-        $token = new Token($label);
-        return $token->compare($value);
+        $this->response->redirect($url, $status);
+    }
+
+    /**
+     * Effectue une redirection http suite à un traitement de données
+     * reçues par formulaire
+     * 
+     * @param string $url
+     */
+    final protected function redirectForm($url)
+    {
+        $this->redirect($url, 303);
+    }
+
+    /**
+     * Gestionnaire d'erreurs http
+     * 
+     * @param string $message Message à retourner au client (rédigé en markdown/html)
+     * @param integer $code Code http à utiliser pour l'erreur
+     */
+    final protected function sendError($message, $code)
+    {
+
+        // Tente d'envoyer l'erreur par un template
+        try {
+
+            $tpl = new Template("error");
+            $tpl->message = $message;
+            $tpl->code = $code;
+
+            $this->response->render($tpl);
+
+            // Si aucun template n'est disponible pour l'affichage des erreurs
+            // On la retourne au format texte.
+        } catch (TemplateException $e) {
+
+            Log::debug($e->getMessage(), $e->getFile(), $e->getLine());
+            Log::notice($message);
+
+            $this->response->setStatus($code);
+            $this->response->setType("text");
+            $this->response->setBody($message);
+            $this->response->send();
+
+            // On ferme l'application
+        } finally {
+            exit();
+        }
     }
     
+    
+
 }
