@@ -24,7 +24,7 @@
  * THE SOFTWARE.
  */
 
-namespace Shrew\Mazzy\Lib\Handler;
+namespace Shrew\Mazzy\Lib\Handler\Mixin;
 
 use Shrew\Mazzy\Lib\Input\Input;
 
@@ -36,6 +36,8 @@ use Shrew\Mazzy\Lib\Input\Input;
  */
 trait InputFull
 {
+    
+    use Session;
 
     protected function get($label)
     {
