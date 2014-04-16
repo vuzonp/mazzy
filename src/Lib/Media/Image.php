@@ -40,9 +40,9 @@ namespace Shrew\Mazzy\Lib\Media;
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
- * @since   2014-04-13
+ * @since   2014-04-16
  */
-class Image
+class Image extends MediaInfo
 {
 
     private $image;
@@ -78,6 +78,8 @@ class Image
             throw new MediaException("Impossible de manipuler les fichiers "
             . "de type `{$this->mimetype}`", 415);
         }
+        
+        parent::__construct($filename);
 
         // Initialisation :
         $this->saveChanges($image);
