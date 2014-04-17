@@ -23,9 +23,12 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace Shrew\Mazzy\Lib\Input\File;
 
 /**
+ * Conteneur des fichiers envoyés à l'application
+ * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
@@ -46,8 +49,10 @@ class Upload extends \Shrew\Mazzy\Lib\Input\InputContainer implements \Countable
     }
 
     /**
+     * Réordonne le tableau $_FILES par fichiers 
+     * et lance l'instanciation de ceux-ci
      * 
-     * @return type
+     * @return array
      */
     private function loadFiles()
     {
@@ -88,8 +93,10 @@ class Upload extends \Shrew\Mazzy\Lib\Input\InputContainer implements \Countable
     }
 
     /**
+     * Instancie les fichiers en objets FileObject
      * 
      * @param array $files
+     * @uses \Shrew\Mazzy\Lib\Input\File\FileObject Représentation objet des fichiers uploadés
      */
     private function instanciateFiles(Array $files = array())
     {
@@ -103,9 +110,10 @@ class Upload extends \Shrew\Mazzy\Lib\Input\InputContainer implements \Countable
     }
 
     /**
+     * Vérifie l'existence d'un fichier
      * 
-     * @param type $label
-     * @return type
+     * @param string $label
+     * @return boolean
      */
     final public function exists($label)
     {
@@ -113,8 +121,9 @@ class Upload extends \Shrew\Mazzy\Lib\Input\InputContainer implements \Countable
     }
     
     /**
+     * Retourne le nombre de fichiers uploadés lors de la requête
      * 
-     * @return type
+     * @return integer
      */
     final public function count()
     {
@@ -122,9 +131,10 @@ class Upload extends \Shrew\Mazzy\Lib\Input\InputContainer implements \Countable
     }
 
     /**
+     * Récupère un fichier
      * 
-     * @param type $label
-     * @return type
+     * @param string $label
+     * @return \Shrew\Mazzy\Lib\Input\File\FileObject
      */
     final public function get($label)
     {
@@ -132,7 +142,8 @@ class Upload extends \Shrew\Mazzy\Lib\Input\InputContainer implements \Countable
     }
 
     /**
-     * Exporte les fichiers pour permettre l'iteration
+     * Exporte la collection de fichiers pour permettre l'itération
+     * 
      * @return \Shrew\Mazzy\Lib\Input\File\ArrayIterator
      */
     public function getIterator()

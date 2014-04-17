@@ -23,12 +23,16 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace Shrew\Mazzy\Lib\Input;
 
 /**
- * Description of InputStorageAbstract
+ * Conteneur abstrait des données *input*
  *
- * @author thomas
+ * @author  Thomas Girard <thomas@shrewstudio.com>
+ * @license http://opensource.org/licenses/MIT
+ * @version v0.1.0-alpha2
+ * @since   2014-04-16
  */
 abstract class InputContainer implements InputContainerInterface
 {

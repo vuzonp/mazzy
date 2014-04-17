@@ -23,10 +23,11 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace Shrew\Mazzy\Lib\Input\File;
 
 /**
- * Description of FileObject
+ * Représentation sous form d'objet des fichiers reçus par http
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
@@ -40,11 +41,20 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
     private $name;
     private $error;
 
+    /**
+     * Définit le répertoire de sauvegarde par défaut des fichiers
+     * 
+     * @param string $directory Répertoire de destination (ouvert en écriture)
+     */
     public static function setTargetDirectory($directory)
     {
         self::$destDirectory = $directory;
     }
 
+    /**
+     * @param array $uploadInfos Informations sur le fichier reçu
+     * @throws UploadException Lorsque le fichier défini n'est pas un fichier reçu en http
+     */
     public function __construct(Array $uploadInfos = array())
     {
         //$fileName = get_cfg_var("upload_tmp_dir") . $uploadInfos["tmp_name"];
@@ -60,21 +70,37 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
         $this->error = $uploadInfos["error"];
     }
 
+    /**
+     * Le fichier a-t-il rencontré un problème lors de son transfert ?
+     * @return boolean
+     */
     public function hasError()
     {
         return ($this->error !== 0);
     }
 
+    /**
+     * Récupération du code d'erreur renvoyé par php lors du transfert de fichier
+     * @return integer
+     */
     public function getError()
     {
         return $this->error;
     }
 
+    /**
+     * Retourne le nom de sauvegarde du fichier
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * Demande au programme de renommer le fichier 
+     * @param string|null $name Lorsque null, alors un nom sera généré par la classe
+     */
     public function rename($name = null)
     {
         if ($name === null) {
@@ -83,6 +109,9 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
         $this->name = "$name." . $this->getExtension();
     }
 
+    /**
+     * Génère un nom de fichier unique et aléatoire
+     */
     private function generateName()
     {
         $strong = false;
@@ -91,6 +120,12 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
         $this->name = "$prefix-$basename";
     }
 
+    /**
+     * Sauvegarde le fichier transféré pour un stockage permanent
+     * 
+     * @param string|null $directory Répertoire de destination
+     * @throws UploadException Lorsque le répertoire de destination n'est pas un chemin valide
+     */
     public function save($directory = null)
     {
         if ($directory === null) {
@@ -106,7 +141,17 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
         }
     }
 
-    public function replace($fileName)
+    /**
+     * Sauvegarde le fichier en remplaçant un fichier plus ancien.
+     * 
+     * Attention, la nouvelle sauvegarde aura le même *basename* mais pourra
+     * utiliser une extension différente. Il convient par conséquent de récupérer
+     * le nom définitif avec `FileObject::getName()` après la sauvegarde. 
+     * 
+     * @param string $fileName Nom de l'ancien fichier
+     * @param string Répertoire de destination (où se trouve l'ancien fichier)
+     */
+    public function replace($fileName, $directory = null)
     {
         // supprimer les anciens fichiers
         //...

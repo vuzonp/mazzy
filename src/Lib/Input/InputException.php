@@ -24,20 +24,14 @@
  * SOFTWARE.
  */
 
-namespace Shrew\Mazzy\Lib\Input\File;
+namespace Shrew\Mazzy\Lib\Input;
 
 /**
- * Exceptions propres aux téléchargements de fichiers
+ * Gestionnaire d'exceptions utilisé par la librairie d'Input
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
  * @since   2014-04-17
  */
-class UploadException extends \Shrew\Mazzy\Lib\Input\InputException
-{
-    public function __construct($message, $code = 409, $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
-}
+class InputException extends \DomainException { }

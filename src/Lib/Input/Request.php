@@ -23,50 +23,55 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace Shrew\Mazzy\Lib\Input;
 
 /**
- * Description of InputStorage
+ * Gestionnaire de récupération des données de type **get** et **post**.
  *
- * @author thomas
+ * @author  Thomas Girard <thomas@shrewstudio.com>
+ * @license http://opensource.org/licenses/MIT
+ * @version v0.1.0-alpha2
+ * @since   2014-04-17
  */
 class Request extends InputContainer
 {
-
-    private $egpcs;
-
-    protected function initialize()
-    {
-        parent::initialize();
-
-        $this->egpcs = array(
-            INPUT_GET,
-            INPUT_POST,
-            INPUT_COOKIE,
-            INPUT_SESSION
-        );
-    }
     
+    /**
+     * Détecte la provenance d'une valeur
+     * 
+     * @param string $label
+     * @return integer
+     */
     private function getType($label)
     {
-        foreach ($this->egpcs as $type) {
-            if (filter_has_var($type, $label)) {
-                return $type;
-            }
-        }
-        return null;
+        return (filter_has_var(INPUT_GET, $label)) ? INPUT_GET : INPUT_POST;
     }
 
+    /**
+     * Vérifie l'existence d'une valeur
+     * 
+     * @param string $label
+     * @return boolean
+     */
     final public function exists($label)
     {
-        return ($this->getType($label) !== null);
+        return (filter_has_var(INPUT_GET, $label) || filter_has_var(INPUT_GET, $label));
     }
 
+    /**
+     * 
+     * Récupération d'une valeur
+     * 
+     * @param string $label
+     * @param integer $filter L'ID du (filtre)[http://www.php.net/manual/fr/filter.filters.php] à appliquer.
+     * @param mixed $options Tableau associatif d'options ou des drapeaux
+     * @return mixed
+     */
     final public function get($label, $filter = FILTER_DEFAULT, $options = null)
     {
         $type = $this->getType($label);
         return filter_input($type, $label, $filter, $options);
-
     }
 
 }

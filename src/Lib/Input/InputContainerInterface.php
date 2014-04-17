@@ -27,7 +27,7 @@
 namespace Shrew\Mazzy\Lib\Input;
 
 /**
- * Interface des classes de manipulation de données d'input
+ * Interface des conteneurs de données *input*
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
