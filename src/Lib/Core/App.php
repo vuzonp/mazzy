@@ -255,7 +255,7 @@ class App
      * 
      * @param \Shrew\Mazzy\Lib\Route\RouterInterface $route
      */
-    final public function setRoute(RouterInterface $route)
+    final public function setRouter(RouterInterface $route)
     {
         $this->route = $route;
     }
