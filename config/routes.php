@@ -29,19 +29,19 @@ use Shrew\Mazzy\Lib\Route\Router;
 /**
  * Configuration des routes de l'application
  */
-$route = new Router();
+$router = new Router();
 
 
 // Espaces de noms des handlers
 //------------------------------------------------------------------------------
 
-$route->pushNamespace("Shrew\Mazzy\Example\Handler");
+$router->pushNamespace("Shrew\Mazzy\Example\Handler");
 
 
 // Définition des alias de route
 //------------------------------------------------------------------------------
 
-$route->setAliases(":num", "[0-9]+");
+$router->setAliases(":num", "[0-9]+");
 //$route->setAliases(":slug", "[A-Za-z0-9_\-]+");
 //$route->setAliases(":file", "[A-Za-z0-9_\-]+\.[a-zA-Z]{2,4}");
 
@@ -49,8 +49,9 @@ $route->setAliases(":num", "[0-9]+");
 // Routage de l'application
 //------------------------------------------------------------------------------
 
-$route->set("/", "Hello", "indexAction");
+$router->set("/", "Foo", "barAction");
+$router->set("/query", "Foo", "queryAction");
 
 
 //------------------------------------------------------------------------------
-return $route;
+return $router;
