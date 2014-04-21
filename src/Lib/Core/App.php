@@ -27,9 +27,7 @@
 namespace Shrew\Mazzy\Lib\Core;
 
 use Shrew\Mazzy\Lib\Report\Log;
-use \Shrew\Mazzy\Lib\RouterException;
 use Shrew\Mazzy\Lib\Route\RouterInterface;
-
 
 /**
  * Porte d'entrée de l'application.
@@ -44,25 +42,10 @@ use Shrew\Mazzy\Lib\Route\RouterInterface;
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
- * @since   2014-04-13
+ * @since   2014-04-21
  */
 class App
 {
-
-    /**
-     * Tous les environnements
-     */
-    const ENV_ALL = 0b011;
-
-    /**
-     * Environnement de développement
-     */
-    const ENV_DEVELOPPMENT = 0b001;
-
-    /**
-     * Environnement de production
-     */
-    const ENV_PRODUCTION = 0b010;
 
     /**
      * Données de requêtes
@@ -72,10 +55,10 @@ class App
 
     /**
      * Instance du router
-     * @var Router
+     * @var \Shrew\Mazzy\Lib\Router\RouterInterface
      */
-    protected $route;
-
+    protected $router;
+    
     /**
      * Initialisation du système et des principales librairies
      */
@@ -84,10 +67,10 @@ class App
         try {
             // Récupération de la requête
             $this->req = Request::getInstance();
-            
+
             // Initialisation de l'environnement d'exécution
             Config::setEnvironnement($this->req->getEnv());
-            
+
             // Initialisation du gestionnaire de logs
             $config = Config::get("log");
             Log::setPath($config["directory"]);
@@ -98,23 +81,8 @@ class App
             $locale = $this->detectLocalisation();
             $this->initLocalisation($locale);
 
-            // Vieux code qui sert de pense-bête pour ajouter ces options
-            // à la librairie de template...
-
-            /*
-            Template::setLocale($locale);
-            TemplateTool::setAbsoluteUrl($this->req->getAbsoluteUrl());
-            TemplateTool::setCanonicalUrl($this->req->getCanonicalUrl());
-
-            if (isset($config["template"]["assets"])) {
-                TemplateTool::setAssetsUrl($config["template"]["assets"]);
-            } else {
-                TemplateTool::setAssetsUrl("/assets");
-            }
-            */
-            
         } catch (AppException $e) {
-            Log::alert($e->getMessage(), $e->getFile(), $e->getLine());
+            Log::emergency($e->getMessage(), $e->getFile(), $e->getLine());
             $this->sendError($e);
         }
     }
@@ -147,7 +115,7 @@ class App
                 }
             }
         }
-        
+
         return $locale;
     }
 
@@ -189,33 +157,25 @@ class App
     }
 
     /**
-     * Exécute la requête en lançant le contrôleur approprié
+     * Attributions des routes à l'application
+     * 
+     * @param \Shrew\Mazzy\Lib\Route\RouterInterface $router
+     * @return \Shrew\Mazzy\Lib\Core\App
+     */
+    final public function setRouter(RouterInterface $router)
+    {
+        $this->router = $router;
+        return $this;
+    }
+
+    /**
+     * Exécute la requête
      */
     final public function run()
     {
         try {
-            return $this->route->find($this->req->getPath());
-        }
-
-        // Exception exigeant d'afficher un message d'erreur http spécifique
-        // (erreurs 404, accès interdits, mauvaise méthode, etc.)
-        catch (RouterException $e) {
-            Log::debug($e->getMessage(), $e->getFile(), $e->getLine());
-            $this->sendError($e);
-        }
-
-        // Récupération des exceptions orphelines
-        catch (AppException $e) {
-            Log::error($e->getMessage(), $e->getFile(), $e->getLine());
-            $this->sendError($e);
-        } catch (\PDOException $e) {
-            Log::error($e->getMessage(), $e->getFile(), $e->getLine());
-            $this->sendError($e, 500);
-        } catch (\LogicException $e) {
-            Log::alert($e->getMessage(), $e->getFile(), $e->getLine());
-            $this->sendError($e);
+            $this->router->find($this->req->getPath());
         } catch (\Exception $e) {
-            Log::emergency($e->getMessage(), $e->getFile(), $e->getLine());
             $this->sendError($e);
         }
     }
@@ -226,38 +186,15 @@ class App
      * @param \Exception $e Exception ayant nécessité l'envoi d'une réponse d'erreur
      * @param integer $code Code http a utiliser. Si nulle, alors tentera d'utiliser le code de l'exception
      */
-    final protected function sendError(\Exception $e, $code = null)
+    final protected function sendError(\Exception $e)
     {
-        // Préparation du code http
-        $code = (is_int($code)) ? $code : $e->getCode();
-
-        // Préparation du message à adresser au client
-        if (Config::isDeveloppment()) {
-            $msg = $e->getMessage() . " [file: " . $e->getFile() . ":" . $e->getLine() . "]";
+        if ($e->getCode() < 500) {
+            Log::notice($e->getMessage());
         } else {
-            $msg = _("Oups, il y a un problème !");
+            Log::error($e->getMessage());
         }
-
-        // todo: corriger cette dépendance absurde !
-        if (class_exists("ErrorHandler")) {
-            $err = new ErrorHandler();
-            $err->show($msg, $code);
-        } else {
-            $res = Response::getInstance();
-            $res->setStatus($e->getCode());
-            $res->setBody($e->getMessage());
-            $res->send();
-        }
-    }
-
-    /**
-     * Attributions des routes à l'application
-     * 
-     * @param \Shrew\Mazzy\Lib\Route\RouterInterface $route
-     */
-    final public function setRouter(RouterInterface $route)
-    {
-        $this->route = $route;
+        $handler = new ErrorHandler();
+        $handler->sendException($e);
     }
 
     /**

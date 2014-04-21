@@ -26,6 +26,7 @@
 namespace Shrew\Mazzy\Lib\Handler\Mixin;
 
 use Shrew\Mazzy\Lib\Core\Response;
+use Shrew\Mazzy\Lib\Core\Config;
 use Shrew\Mazzy\Lib\Template\Template as TemplateEngine;
 
 /**
@@ -44,9 +45,9 @@ trait Template
      * 
      * @param string $theme Nom du thème à utiliser
      */
-    final protected static function setDefaultTheme($theme)
+    final protected static function setTheme($theme)
     {
-        TemplateEngine::setDefaultTheme($theme);
+        TemplateEngine::setTheme($theme);
     }
     
     
@@ -59,6 +60,13 @@ trait Template
      */
     final protected function loadTemplate($name, $theme = null)
     {
+        
+        if (TemplateEngine::hasDefaultTheme() === false) {
+            $config = Config::get("view");
+            TemplateEngine::setDefaultTheme($config["defaultTheme"]);
+            TemplateEngine::setGlobal("assets", $config["assets"]);
+        }
+        
         if ($theme !== null) {
             TemplateEngine::setTheme($theme);
         }

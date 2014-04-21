@@ -29,9 +29,6 @@ namespace Shrew\Mazzy\Lib\Handler;
 use Shrew\Mazzy\Lib\Core\Request;
 use Shrew\Mazzy\Lib\Core\Response;
 use Shrew\Mazzy\Lib\Input\Input;
-use Shrew\Mazzy\Lib\Report\Log;
-use Shrew\Mazzy\Lib\Template\Template;
-use Shrew\Mazzy\Lib\Template\TemplateException;
 
 
 /**
@@ -43,8 +40,8 @@ use Shrew\Mazzy\Lib\Template\TemplateException;
  * @since   2014-04-14
  */
 class Handler
-{
-
+{ 
+    
     protected $request;
     protected $response;
     protected $input;
@@ -95,44 +92,6 @@ class Handler
     final protected function redirectForm($url)
     {
         $this->redirect($url, 303);
-    }
-
-    /**
-     * Gestionnaire d'erreurs http
-     * 
-     * @param string $message Message à retourner au client (rédigé en markdown/html)
-     * @param integer $code Code http à utiliser pour l'erreur
-     */
-    final protected function sendError($message, $code)
-    {
-
-        // Tente d'envoyer l'erreur par un template
-        try {
-
-            $tpl = new Template("error");
-            $tpl->message = $message;
-            $tpl->code = $code;
-
-            $this->response->render($tpl);
-
-            // Si aucun template n'est disponible pour l'affichage des erreurs
-            // On la retourne au format texte.
-        } catch (TemplateException $e) {
-
-            Log::debug($e->getMessage(), $e->getFile(), $e->getLine());
-            Log::notice($message);
-
-            $this->response->setStatus($code);
-            $this->response->setType("text");
-            $this->response->setBody($message);
-            $this->response->send();
-
-            // On ferme l'application
-        } finally {
-            exit();
-        }
-    }
+    }   
     
-    
-
 }

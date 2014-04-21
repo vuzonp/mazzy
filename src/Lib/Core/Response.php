@@ -241,11 +241,14 @@ class Response
 
     /**
      * Réinitialisation de la réponse
+     * 
+     * @return \Shrew\Mazzy\Lib\Core\Response
      */
     public function reset()
     {
         $this->headers = array();
         $this->initialize();
+        return $this;
     }
 
     /**
@@ -278,6 +281,21 @@ class Response
         $this->sendHeaders();
         echo $this->body;
         exit;
+    }
+    
+    /**
+     * Retourne un message d'erreur http
+     * 
+     * @param \Shrew\Mazzy\Lib\Core\OutputInterface|string $message
+     * @param integer $status Status http à utiliser.
+     */
+    public function sendError($message, $status = 500)
+    {
+        if ($message instanceof OutputInterface) {
+            $this->render($message, $status);
+        } else {
+            $this->reset()->setStatus($status)->setType("text")->setBody($message)->send();
+        }
     }
 
     /**

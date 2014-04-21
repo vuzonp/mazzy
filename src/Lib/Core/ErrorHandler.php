@@ -26,23 +26,15 @@
 
 namespace Shrew\Mazzy\Lib\Core;
 
-use \Shrew\Mazzy\Lib\RouterException;
-
 /**
- * Exception destinées a être communiquées au client.
- * 
- * Ce type d'exceptions est destinée à rediriger vers 
- * une page d'erreur http (500, 404, 403, ...)
- * 
+ * Contrôleur consacré à la gestion des erreurs http
+ *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
- * @since   2014-04-13
+ * @since   2014-04-21
  */
-class HttpException extends RouterException
+class ErrorHandler extends \Shrew\Mazzy\Lib\Handler\Handler
 {
-    public function __construct($message, $code = 500, $previous = null)
-    {
-        parent::__construct($message, $code, $previous);
-    }
+    use \Shrew\Mazzy\Lib\Handler\Mixin\Error;
 }

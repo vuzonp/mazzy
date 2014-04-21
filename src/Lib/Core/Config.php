@@ -96,6 +96,14 @@ class Config
         }
     }
     
+    final public static function exists($lib)
+    {
+        if (self::$env === null) {
+            throw new AppException("Environnement d'exécution inconnu.", 500);
+        }
+        return array_key_exists($lib, self::$config[self::$env]);
+    }
+
     /**
      * Récupération des options de configuration
      * 
