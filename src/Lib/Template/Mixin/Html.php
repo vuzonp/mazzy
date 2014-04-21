@@ -49,7 +49,7 @@ trait Html
      */
     public static function toText($str)
     {
-        return htmlspecialchars(strip_tags($str), ENT_QUOTES | ENT_DISALLOWED | ENT_HTML5, APP_CHARSET);
+        return htmlspecialchars(strip_tags($str), ENT_QUOTES | ENT_DISALLOWED | ENT_HTML5, "UTF-8");
     }
 
     /**
@@ -61,7 +61,7 @@ trait Html
      */
     public static function ascii($str)
     {
-        $str = iconv(APP_CHARSET, "us-ascii//TRANSLIT", $str);
+        $str = iconv("UTF-8", "us-ascii//TRANSLIT", $str);
         return self::text($str);
     }
 
@@ -84,9 +84,8 @@ trait Html
         // Initialisation de HTMLPurifier
         if (self::$strHtmlCleaner === null) {
             $config = \HTMLPurifier_Config::createDefault();
-            //$config->set("Cache.DefinitionImpl", null);
-            $config->set("Cache.SerializerPath", APP_CACHE);
-            $config->set("Core.Encoding", APP_CHARSET);
+            $config->set("Cache.DefinitionImpl", null);
+            $config->set("Core.Encoding", "UTF-8");
             $config->set("HTML.Doctype", "HTML 4.01 Transitional");
             self::$strHtmlCleaner = new \HTMLPurifier($config);
         }
