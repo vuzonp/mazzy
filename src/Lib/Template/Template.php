@@ -27,7 +27,6 @@
 namespace Shrew\Mazzy\Lib\Template;
 
 use Shrew\Mazzy\Lib\Core\Collection;
-use Shrew\Mazzy\Lib\Core\Config;
 
 
 /**
@@ -36,7 +35,7 @@ use Shrew\Mazzy\Lib\Core\Config;
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
- * @since   2014-04-14
+ * @since   2014-04-21
  */
 class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
 {
@@ -64,7 +63,7 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
      * @var array
      */
     protected $data;
-
+    
     /**
      * Permet d'ajouter des variables globales
      * 
@@ -91,8 +90,13 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
         if ($theme !== null && is_dir(APP_ROOT . "/templates/$theme")) {
             self::$default = $theme;
         } else {
-            throw new TemplateException("Le thème `$theme`, définit par défaut n'existe pas", 500);
+            throw new TemplateException("Le thème *$theme*, définit par défaut n'existe pas", 500);
         }
+    }
+    
+    final public static function hasDefaultTheme()
+    {
+        return (self::$default !== null);
     }
 
     /**
@@ -108,7 +112,7 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
                 self::$theme = $theme;
             } else {
                 self::$theme = self::$default;
-                throw new TemplateException("Le thème `$theme` n'existe pas", 202);
+                throw new TemplateException("Le thème *$theme* n'existe pas", 202);
             }
         }
     }
@@ -119,11 +123,6 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
      */
     public function __construct($name)
     {
-        if (self::$default === null) {
-            $config = Config::get("view");
-            self::setDefaultTheme($config["defaultTheme"]);
-        }
-
         // Fichier de template
         $theme = (self::$theme !== null) ? self::$theme : self::$default;
         $filename = APP_ROOT . "/templates/$theme/$name.php";
@@ -134,7 +133,7 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
             $filename = APP_ROOT . "/templates/$theme/$name.php";
 
             if (!file_exists($filename)) {
-                throw new TemplateException("Le fichier de template `$name` n'existe pas", 500);
+                throw new TemplateException("Le fichier de template *$name* n'existe pas", 500);
             }
         }
 
@@ -159,7 +158,7 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
      * @param string $label Label permettant d'accéder aux données transmises
      * @param mixed $value Valeur des données transmises
      */
-    final public function set($label, Collection $value)
+    final public function set($label, $value)
     {
         $this->data[$label] = $value;
     }
