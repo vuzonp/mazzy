@@ -34,7 +34,7 @@ namespace Shrew\Mazzy\Lib\Core;
  * @version v0.1.0-alpha2
  * @since   2014-04-21
  */
-class ErrorHandler extends \Shrew\Mazzy\Lib\Handler\HandlerHtml
+class ErrorHandler extends \Shrew\Mazzy\Lib\Handler\Handler
 {
     use \Shrew\Mazzy\Lib\Handler\Mixin\Error;
 }
