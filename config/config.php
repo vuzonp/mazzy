@@ -127,6 +127,7 @@ Config::set("view", array(
     
     // Thème par défaut de l'application
     "defaultTheme" => "default",
+    "theme" => "default",
     
     // Chemin à utilisé pour les contenus statiques du site
     "assets" => "/assets/"
