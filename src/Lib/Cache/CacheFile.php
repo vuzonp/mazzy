@@ -1,9 +1,9 @@
 <?php
 
-/*
- * The MIT License
+/**
+ * The MIT License (MIT)
  *
- * Copyright 2014 thomas.
+ * Copyright (c) 2014 Thomas Girard
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -12,7 +12,7 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
+ * The above copyright notice and this permission notice shall be included in 
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -20,8 +20,8 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 namespace Shrew\Mazzy\Lib\Cache;
@@ -31,8 +31,7 @@ namespace Shrew\Mazzy\Lib\Cache;
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-22
+ * @version v0.2.0-alpha3
  */
 class CacheFile
 {
@@ -105,7 +104,8 @@ class CacheFile
     public function exists()
     {
         if ($this->life > 0) {
-            return ($this->file->isReadable() && $this->file->getCTime() + $this->life > time());
+            return ($this->file->isReadable() 
+                    && $this->file->getCTime() + $this->life > time());
         }
         return false;
     }

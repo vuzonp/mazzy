@@ -27,12 +27,11 @@
 namespace Shrew\Mazzy\Lib\Cache;
 
 /**
- * Gestion des exceptions liées au cache
+ * Gestion des exceptions propres au cache
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-22
+ * @version v0.2.0-alpha3
  */
 class CacheException extends \Exception
 {
