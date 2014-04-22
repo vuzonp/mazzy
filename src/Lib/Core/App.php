@@ -35,15 +35,9 @@ use Shrew\Mazzy\Lib\Route\RouterInterface;
  * 
  * Interface permettant l'initialisation, la configuration et 
  * l'exécution du programme.
- *
- * @todo    Corriger le système d'affichage des erreurs en s'inspirant de la
- *          manière de faire de la librairie Handler mais en évitant la
- *          dépendance à Template... Bref, toute une histoire !
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-21
  */
 class App
 {

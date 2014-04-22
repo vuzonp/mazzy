@@ -31,7 +31,6 @@ namespace Shrew\Mazzy\Lib\Cache;
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.2.0-alpha3
  */
 class CacheException extends \Exception
 {

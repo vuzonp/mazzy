@@ -31,15 +31,10 @@ namespace Shrew\Mazzy\Lib\Core;
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
- * @todo Standardiser les noms de méthodes *guest* vs *user*
  */
 class Request
 {
-    
-    use Mixin\Singleton;
-
+    private static $instance;
 
     private $env;
     private $method;
@@ -53,16 +48,36 @@ class Request
     private $xhr;
     private $isSecure;
     private $modRewrite;
-    private $langs;
-    private $userIP;
+    private $guestIP;
     private $agent;
+    
+    /**
+     * Chargeur singleton
+     * 
+     * @return \Shrew\Mazzy\Lib\Core\Request;
+     */
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    final public function __clone() 
+    {
+        trigger_error("Le clonage n'est pas autorisé.", E_USER_ERROR);
+    }
+    
+    private function __construct() {}
 
+    
     /**
      * Récupère l'environnement de travail de la requête 
      *
      * @return string (`developpment` ou `production`)
      */
-    public function getEnv()
+    final public function getEnv()
     {
         if ($this->env === null) {
             $ip = $this->get("REMOTE_ADDR");
@@ -76,7 +91,7 @@ class Request
      *
      * @return string
      */
-    public function getMethod()
+    final public function getMethod()
     {
         if ($this->method === null) {
             $method = $this->get("REQUEST_METHOD");
@@ -90,7 +105,7 @@ class Request
      *
      * @return string
      */
-    public function getCanonicalUrl()
+    final public function getCanonicalUrl()
     {
         if ($this->canonical === null) {
             $this->canonical = $this->getAbsoluteUrl() . $this->getPath();
@@ -103,7 +118,7 @@ class Request
      *
      * @return string
      */
-    public function getAbsoluteUrl()
+    final public function getAbsoluteUrl()
     {
         if ($this->urlAbsolute === null) {
             $this->urlAbsolute = $this->getScheme() . "://" . $this->getHostname();
@@ -126,7 +141,7 @@ class Request
      *
      * @return string
      */
-    public function getPath()
+    final public function getPath()
     {
         if ($this->path === null) {
             $path = $this->get("PATH_INFO", FILTER_SANITIZE_URL);
@@ -143,7 +158,7 @@ class Request
      *
      * @return string
      */
-    public function getRootUrl()
+    final public function getRootUrl()
     {
         if ($this->baseUrl === null) {
             $needle = $this->get("DOCUMENT_ROOT");
@@ -158,7 +173,7 @@ class Request
      *
      * @return integer
      */
-    public function getPort()
+    final public function getPort()
     {
         if ($this->port === null) {
             $port = $this->get("SERVER_PORT", FILTER_SANITIZE_NUMBER_INT);
@@ -175,7 +190,7 @@ class Request
      *
      * @return string
      */
-    public function getHostname()
+    final public function getHostname()
     {
         if ($this->hostname === null) {
             $this->hostname = explode(":", $this->get("HTTP_HOST", FILTER_SANITIZE_URL))[0];
@@ -188,7 +203,7 @@ class Request
      *
      * @return string
      */
-    public function getScheme()
+    final public function getScheme()
     {
         if ($this->scheme === null) {
             $this->scheme = ($this->isSecure === true) ? "https" : "http";
@@ -201,7 +216,7 @@ class Request
      *
      * @return boolean
      */
-    public function isXhr()
+    final public function isXhr()
     {
         if ($this->xhr === null) {
             $xhr = strtolower($this->get("HTTP_X_REQUESTED_WITH"));
@@ -217,7 +232,7 @@ class Request
      * 
      * @return boolean
      */
-    public function isSecure()
+    final public function isSecure()
     {
         if ($this->isSecure === null) {
             $this->isSecure = ($this->get("HTTPS", FILTER_VALIDATE_BOOLEAN) === true || $this->get("SERVER_PORT") == 443) ? true : false;
@@ -232,7 +247,7 @@ class Request
      *
      * @return boolean
      */
-    public function isRewrited()
+    final public function isRewrited()
     {
         if ($this->modRewrite === null) {
             $uri = $this->get("REQUEST_URI");
@@ -253,7 +268,7 @@ class Request
      *
      * @return string (sous forme "fr_FR")
      */
-    public function getUserLocale()
+    final public function getGuestLocale()
     {
         if ($this->locale === null) {
             $httpAccept = $this->get("HTTP_ACCEPT_LANGUAGE");
@@ -262,27 +277,12 @@ class Request
         return $this->locale;
     }
 
-    /*
-    public function getGuestLangs()
-    {
-        if ($this->langs === null) {
-            $langs = array("es", "en");
-            $locales = explode(",", $this->get("HTTP_ACCEPT_LANGUAGE"));
-            foreach ($locales as $locale) {
-                $langs[] = strtolower(substr($locale, 0, 2));
-            }
-            $this->langs = array_unique($langs);
-        }
-        return $this->langs;
-    }
-    */
-
     /**
      * Récupération de la signature du navigateur utilisé par le client
      *
      * @return string
      */
-    public function getUserAgent()
+    final public function getGuestAgent()
     {
         if ($this->agent === null) {
             $this->agent = $this->get("HTTP_USER_AGENT");
@@ -297,10 +297,10 @@ class Request
      * 
      * @return string
      */
-    public function getUserIP()
+    final public function getGuestIP()
     {
-        if ($this->userIP === null) {
-            $this->userIP = "0.0.0.0";
+        if ($this->guestIP === null) {
+            $this->guestIP = "0.0.0.0";
             foreach (array(
                 "HTTP_CLIENT_IP",
                 "HTTP_X_FORWARDED_FOR",
@@ -317,14 +317,14 @@ class Request
                                         FILTER_FLAG_IPV6 |
                                         FILTER_FLAG_NO_PRIV_RANGE |
                                         FILTER_FLAG_NO_RES_RANGE) !== false) {
-                            $this->userIP = $ip;
+                            $this->guestIP = $ip;
                             return $ip;
                         }
                     }
                 }
             }
         }
-        return $this->userIP;
+        return $this->guestIP;
     }
 
     /**
@@ -336,7 +336,7 @@ class Request
      * @param integer $filter filtre de nettoyage de type filter_var
      * @return string
      */
-    public function get($identifier, $filter = FILTER_DEFAULT, $options = null)
+    final public function get($identifier, $filter = FILTER_DEFAULT, $options = null)
     {
         if ($filter === FILTER_UNSAFE_RAW && $options === null) {
             $options = FILTER_FLAG_STRIP_LOW | FILTER_FLAG_STRIP_HIGH;

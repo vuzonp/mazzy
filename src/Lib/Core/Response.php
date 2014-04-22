@@ -31,13 +31,11 @@ namespace Shrew\Mazzy\Lib\Core;
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
  */
 class Response
 {
-    use Mixin\Singleton;
-
+    private static $instance;
+    
     /**
      * Liste des types mimes disponibles par défaut
      * @var array
@@ -119,6 +117,26 @@ class Response
      * @var string
      */
     private $body;
+    
+    /**
+     * Chargeur singleton
+     * 
+     * @return \Shrew\Mazzy\Lib\Core\Response;
+     */
+    public static function getInstance()
+    {
+        if (self::$instance === null) {
+            self::$instance = new self();
+        }
+        return self::$instance;
+    }
+    
+    final public function __clone() 
+    {
+        trigger_error("Le clonage n'est pas autorisé.", E_USER_ERROR);
+    }
+    
+    private function __construct() {}
 
     /**
      * Initialise la réponse par les valeurs par défaut
