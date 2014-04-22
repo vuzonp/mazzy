@@ -26,10 +26,12 @@
 
 namespace Shrew\Mazzy\Lib\Handler\Mixin;
 
+use Shrew\Mazzy\Lib\Handler\HandlerException;
 use Shrew\Mazzy\Lib\Core\Collection;
 use Shrew\Mazzy\Lib\Cache\CacheFile;
 use Shrew\Mazzy\Lib\Core\Config;
 use Shrew\Mazzy\Lib\Template\Template;
+
 
 /**
  * Description of Template
@@ -38,6 +40,12 @@ use Shrew\Mazzy\Lib\Template\Template;
  */
 trait Html
 {
+    /**
+     * Durée de vie du cache
+     * @var integer 
+     */
+    protected $cachelife = 0;
+    
     /**
      * Charge une instance de template et prépare la réponse
      * 
@@ -87,20 +95,29 @@ trait Html
     }
     
     /**
+     * Attribue une durée de vie au cache
+     * 
+     * @param integer $life Durée de vie du cache en secondes
+     */
+    protected function setLife($life = 0)
+    {
+        $this->cachelife = $life;
+    }
+    
+    /**
      * Retourne une vue html au client
      * 
      * @param string $template Nom du template à utiliser
      * @param array|\Shrew\Mazzy\Lib\Core\Collection $data Données du template
      * @param integer $status Status http de la réponse
-     * @param integer $life Durée de vie du cache en secondes
      */
-    protected function render($template, $data = null, $status = 200, $life = 0)
+    protected function render($template, $data = array(), $status = 200)
     {       
         $tpl = $this->loadTemplate($template, $status);
         
         // Initialisation du cache
         $name = str_replace("/", ".", $template) . "-";
-        $cache = new CacheFile($name, $life);
+        $cache = new CacheFile($name, $this->cachelife);
         $cache->generateUID(array($data, $tpl->getHash()));
         
         // Retourne le cache s'il existe
