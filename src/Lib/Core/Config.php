@@ -88,11 +88,19 @@ class Config
      */
     final public static function set($lib, Array $config = array(), $env = self::ENV_ALL)
     {
-        if ($env & self::ENV_DEVELOPPMENT === self::ENV_DEVELOPPMENT) {
-            self::$config[self::ENV_DEVELOPPMENT][$lib] = $config;
+        if (($env & self::ENV_DEVELOPPMENT) === self::ENV_DEVELOPPMENT) {
+            if (isset(self::$config[self::ENV_DEVELOPPMENT][$lib])) {
+                self::$config[self::ENV_DEVELOPPMENT][$lib] = array_merge(self::$config[self::ENV_DEVELOPPMENT][$lib], $config);
+            } else {
+                self::$config[self::ENV_DEVELOPPMENT][$lib] = $config;
+            } 
         }
-        if ($env & self::ENV_PRODUCTION === self::ENV_PRODUCTION) {
-            self::$config[self::ENV_PRODUCTION][$lib] = $config;
+        if (($env & self::ENV_PRODUCTION) === self::ENV_PRODUCTION) {
+            if (isset(self::$config[self::ENV_PRODUCTION][$lib])) {
+                self::$config[self::ENV_PRODUCTION][$lib] = array_merge(self::$config[self::ENV_PRODUCTION][$lib], $config);
+            } else {
+                self::$config[self::ENV_PRODUCTION][$lib] = $config;
+            } 
         }
     }
     
