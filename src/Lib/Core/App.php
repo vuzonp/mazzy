@@ -107,16 +107,16 @@ class App
 
         // détection de la locale par sous-domaine
         $domains = explode(".", $this->req->getHostname());
-        $length = count($domains);
+        $length = sizeof($domains);
 
         // Détection de la langue
         if ($length > 2) {
             $n = --$length;
             for ($i = 0; $i < $n; $i++) {
-                $allowed = $config["translations"][$i];
-                $lang = Locale::getPrimaryLanguage($allowed);
-                if (in_array($lang, $domains)) {
-                    $locale = $allowed;
+                
+                $lang = \Locale::getPrimaryLanguage($domains[$i]);
+                if (in_array($lang, $config["translations"])) {
+                    $locale = $lang;
                     break;
                 }
             }
