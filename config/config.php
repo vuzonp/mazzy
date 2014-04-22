@@ -101,7 +101,7 @@ Config::set("cache", array(
 ));
 
 // Environnement de production :
-Config::set("log", array(
+Config::set("cache", array(
     "directory" => APP_ROOT . "/var/tmp",
 ), Config::ENV_PRODUCTION);
 
