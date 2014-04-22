@@ -45,6 +45,10 @@ try {
     
     // Autoloader PSR-4
     require APP_ROOT . "/vendor/autoload.php";
+    
+    // Démarrage du benchmark
+    $bench = new Shrew\Mazzy\Lib\Report\Bench();
+    $bench->enableMemory();
 
     // Configuration de l'application
     require APP_CONFIG . "/config.php";
@@ -58,11 +62,16 @@ try {
     // Vers l'infini et au-delà !!
     $app->setRouter(include APP_CONFIG . "/routes.php");
     $app->run();
+    
+    // Affichage du benchmark
+    $bench->stop();
+    printf("\n<!-- time: %s sec. -->",$bench->getTimer());
+    printf("\n<!-- memory: %s Mio -->",$bench->getMemory());
 
 //------------------------------------------------------------------------------
     
 // Récupération des exceptions qui se seraient échappées :
-} catch (Exception $ex) {
+} catch (Exception $e) {
     
     Log::alert($e->getMessage(), $e->getFile(), $e->getLine());
     
