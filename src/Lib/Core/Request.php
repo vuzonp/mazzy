@@ -65,7 +65,8 @@ class Request
     public function getEnv()
     {
         if ($this->env === null) {
-            $this->env = ($this->get("REMOTE_ADDR") === "127.0.0.1") ? "developpment" : "production";
+            $ip = $this->get("REMOTE_ADDR");
+            $this->env = ($ip === "127.0.0.1" || $ip === "::1") ? "developpment" : "production";
         }
         return $this->env;
     }
