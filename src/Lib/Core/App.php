@@ -26,7 +26,6 @@
 
 namespace Shrew\Mazzy\Lib\Core;
 
-use Shrew\Mazzy\Lib\Cache\CacheFile;
 use Shrew\Mazzy\Lib\Report\Log;
 use Shrew\Mazzy\Lib\Route\RouterInterface;
 
@@ -77,10 +76,6 @@ class App
             $config = Config::get("log");
             Log::setPath($config["directory"]);
             Log::setLeveLReports($config["minLevel"]);
-            
-            // Initialisation du cache
-            $config = Config::get("cache");
-            CacheFile::setPath($config["directory"]);
 
             // Localisation et encodage
             $this->initCharset();

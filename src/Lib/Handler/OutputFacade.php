@@ -56,6 +56,9 @@ class OutputFacade
         Template::setTheme($config["theme"]);
         Template::setGlobal("assets", $config["assets"]);
         
+        $config = Config::get("cache");
+        Cache::setPath($config["directory"]);
+        
         $this->collection = new Collection();
         $this->life = 0;
     }
