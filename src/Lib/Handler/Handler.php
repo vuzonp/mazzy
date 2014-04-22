@@ -39,11 +39,21 @@ use Shrew\Mazzy\Lib\Input\Input;
  * @version v0.1.0-alpha2
  * @since   2014-04-14
  */
-class Handler
+abstract class Handler
 { 
-    
+    /**
+     * @var \Shrew\Mazzy\Lib\Core\Request
+     */
     protected $request;
+    
+    /**
+     * @var \Shrew\Mazzy\Lib\Core\Response
+     */
     protected $response;
+    
+    /**
+     * @var \Shrew\Mazzy\Lib\Input\Request
+     */
     protected $input;
 
     public function __construct()
@@ -92,6 +102,6 @@ class Handler
     final protected function redirectForm($url)
     {
         $this->redirect($url, 303);
-    }   
-    
+    }
+
 }

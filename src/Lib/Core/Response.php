@@ -225,19 +225,6 @@ class Response
         $url = Request::getInstance()->getAbsoluteUrl() . $url;
         $this->location($url, $status);
     }
-    
-    /**
-     * Génère le corps de la réponse à partir d'un template
-     *
-     * @param \Shrew\Mazzy\Lib\Core\OutputInterface Instance de générateur de template
-     * @param integer $status Status http à utiliser.
-     */
-    public function render(OutputInterface $outputHandler, $status = 200)
-    {
-        $this->setStatus($status);
-        $this->setType($outputHandler->getType(), false);
-        $this->setBody($outputHandler->generate());
-    }
 
     /**
      * Réinitialisation de la réponse
@@ -328,7 +315,6 @@ class Response
         ob_clean();
         flush();
         readfile($filename);
-        exit;
     }
 
     /**

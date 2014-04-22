@@ -24,17 +24,20 @@
  * SOFTWARE.
  */
 
-namespace Shrew\Mazzy\Lib\Core;
+namespace Shrew\Mazzy\Lib\Cache;
 
 /**
- * Contrôleur consacré à la gestion des erreurs http
+ * Gestion des exceptions liées au cache
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
  * @version v0.1.0-alpha2
- * @since   2014-04-21
+ * @since   2014-04-22
  */
-class ErrorHandler extends \Shrew\Mazzy\Lib\Handler\HandlerHtml
+class CacheException extends \Exception
 {
-    use \Shrew\Mazzy\Lib\Handler\Mixin\Error;
+    public function __construct($message, $code = 500, $previous = null)
+    {
+        parent::__construct($message, $code, $previous);
+    }
 }

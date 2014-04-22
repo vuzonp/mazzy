@@ -38,7 +38,7 @@ use Shrew\Mazzy\Lib\Report\Log;
  * requête.
  */
 
- 
+
 //------------------------------------------------------------------------------
 // Bases de données
 //------------------------------------------------------------------------------
@@ -87,7 +87,22 @@ Config::set("log", array(
 
 // Environnement de production :
 Config::set("log", array(
+    "directory" => APP_ROOT . "/var/log",
     "minLevel" => Log::WARNING,
+), Config::ENV_PRODUCTION);
+
+
+//------------------------------------------------------------------------------
+// Cache
+//------------------------------------------------------------------------------
+
+Config::set("cache", array(
+    "directory" => "/tmp",
+));
+
+// Environnement de production :
+Config::set("log", array(
+    "directory" => APP_ROOT . "/var/tmp",
 ), Config::ENV_PRODUCTION);
 
 

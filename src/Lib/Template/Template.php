@@ -151,6 +151,19 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
     {
         return "text/html; charset=utf-8";
     }
+    
+    /**
+     * Récupère le hash md5 du fichier de template
+     * 
+     * Cette méthode est utile pour vérifier si le fichier de template a
+     * connu des modifications depuis la dernière éxécution.
+     * 
+     * @return string
+     */
+    public function getHash()
+    {
+        return md5_file($this->filename);
+    }
 
     /**
      * Permet de transmettre des données à la vue
@@ -187,5 +200,5 @@ class Template implements \Shrew\Mazzy\Lib\Core\OutputInterface
 
         return $output;
     }
-
+    
 }

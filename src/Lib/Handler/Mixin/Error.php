@@ -38,7 +38,7 @@ use Shrew\Mazzy\Lib\Template\TemplateException;
  */
 trait Error
 {
-    use Template;
+    use Html;
     
     public function sendException(\Exception $e)
     {
@@ -68,11 +68,9 @@ trait Error
 
         // Retourne l'erreur en html ou bien au format texte
         try {
-            $body = $this->loadTemplate("error");
-            $body->set("err", $error);
+            $this->render("error", $error, $code, 3600);
         } catch (TemplateException $e) {
             $body = "{$error->message}\n\n{$error->trace}";
-        } finally {
             $this->response->sendError($body, $code);
         }
     }
@@ -86,11 +84,9 @@ trait Error
         
         // Retourne l'erreur en html ou bien au format texte
         try {
-            $body = $this->loadTemplate("error");
-            $body->set("err", $error);
+            $this->render("error", $error, $code, 3600);
         } catch (TemplateException $e) {
             $body = "{$error->message}\n\n{$error->trace}";
-        } finally {
             $this->response->sendError($body, $code);
         }
     }

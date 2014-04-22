@@ -4,7 +4,7 @@ use Shrew\Mazzy\Lib\Template\Tpl;
 ?>
 <html>
     <head>
-        <title><?= $name = Tpl::toText($err->name); ?></title>
+        <title><?= $name = Tpl::toText($error->name); ?></title>
         <style>
             body {
                 font: 1em/1.4 "Segoe UI", "Cantarell", Helvetica, Verdana, sans-serif;
@@ -57,8 +57,8 @@ use Shrew\Mazzy\Lib\Template\Tpl;
     <body>
         <div id="panel">
             <h1><?= $name; ?></h1>
-            <p><?= Tpl::toHtml($err->message); ?></p>
-            <pre><?= $err->trace; ?></pre>
+            <p><?= Tpl::toHtml($error->message); ?></p>
+            <pre><?= $error->trace; ?></pre>
         </div>
     </body>
 </html>
