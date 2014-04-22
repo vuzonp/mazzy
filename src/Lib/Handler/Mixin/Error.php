@@ -26,7 +26,6 @@
 
 namespace Shrew\Mazzy\Lib\Handler\Mixin;
 
-use Shrew\Mazzy\Lib\Core\Collection;
 use Shrew\Mazzy\Lib\Core\Config;
 use Shrew\Mazzy\Lib\Report\Log;
 use Shrew\Mazzy\Lib\Template\TemplateException;
@@ -37,26 +36,29 @@ use Shrew\Mazzy\Lib\Template\TemplateException;
  * @author thomas
  */
 trait Error
-{
-    use Html;
-    
+{   
+    /**
+     * 
+     * @param \Exception $e
+     */
     public function sendException(\Exception $e)
     {
         // Récupération des données
         $code = $e->getCode();
         $name = sprintf(_("Erreur %s"), $code);
+        
         $message = $e->getMessage();
         $file = $e->getFile();
         $line = $e->getLine();
         $trace = $e->getTraceAsString();
         
-        $error = new Collection(compact("code", "name", "message", "file", "line", "trace", "debug"));
+        $public = (compact("code", "name", "message", "file", "line", "trace"));
         
-        if (Config::isDeveloppment() === false) {
-            $error->message = _("Une erreur s'est produite");
-            $error->file = null;
-            $error->line = null;
-            $error->trace = null;
+        if (Config::isProduction()) {
+            $public["message"] = _("Une erreur s'est produite");
+            $public["file"] = null;
+            $public["line"] = null;
+            $public["trace"] = null;
         } 
 
         // Log de l'erreur
@@ -68,26 +70,46 @@ trait Error
 
         // Retourne l'erreur en html ou bien au format texte
         try {
-            $this->render("error", $error, $code, 3600);
+            
+            $this->tpl->load("error");
+            $this->tpl->cache(3600);
+            
+            $this->tpl->code = $public["code"];
+            $this->tpl->name = $public["name"];
+            $this->tpl->message = $public["message"];
+            $this->tpl->file = $public["file"];
+            $this->tpl->line = $public["line"];
+            $this->tpl->trace = $public["trace"];
+            
+            $this->tpl->render($code);
+            
+            //$this->render("error", $error, $code, 3600);
         } catch (TemplateException $e) {
-            $body = "{$error->message}\n\n{$error->trace}";
+            $body = "{$public["message"]}\n\n{$public["trace"]}";
             $this->response->sendError($body, $code);
         }
     }
     
+    /**
+     * 
+     * @param type $message
+     * @param type $code
+     */
     public function sendError($message, $code = 500)
-    {
-        $error = new Collection();
-        $error->name = sprintf(_("Erreur %s"), $code);
-        $error->message = $message;
-        $error->code = $code;
-        
+    {      
         // Retourne l'erreur en html ou bien au format texte
         try {
-            $this->render("error", $error, $code, 3600);
+            $this->tpl->load("error");
+            $this->tpl->cache(3600);
+            
+            $this->tpl->name = sprintf(_("Erreur %s"), $code);
+            $this->tpl->code = $code;
+            $this->tpl->message = $message;
+            
+            $this->tpl->render($code);
+            
         } catch (TemplateException $e) {
-            $body = "{$error->message}\n\n{$error->trace}";
-            $this->response->sendError($body, $code);
+            $this->response->sendError($message, $code);
         }
     }
 }

@@ -61,6 +61,7 @@ abstract class Handler
         $this->request = Request::getInstance();
         $this->response = Response::getInstance();
         $this->input = Input::getRequests();
+        $this->tpl = new OutputFacade();
     }
 
     
