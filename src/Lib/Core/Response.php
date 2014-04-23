@@ -136,8 +136,6 @@ class Response
         trigger_error("Le clonage n'est pas autorisé.", E_USER_ERROR);
     }
     
-    private function __construct() {}
-
     /**
      * Initialise la réponse par les valeurs par défaut
      *
@@ -146,8 +144,7 @@ class Response
      * de l'environnement d'exécution est utilisée pour adapter la réponse par
      * défaut selon le contexte.
      */
-    final protected function initialize()
-    {
+    private function __construct() {
         if (Config::isDeveloppment()) {
             $this->setStatus(200);
             $this->setType("html"); // pour xdebug
