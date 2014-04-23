@@ -28,6 +28,7 @@ namespace Shrew\Mazzy\Lib\Handler;
 
 use Shrew\Mazzy\Lib\Core\Collection;
 use Shrew\Mazzy\Lib\Core\Config;
+use Shrew\Mazzy\Lib\Core\Request;
 use Shrew\Mazzy\Lib\Core\Response;
 use Shrew\Mazzy\Lib\Cache\CacheFile as Cache;
 use Shrew\Mazzy\Lib\Template\Template;
@@ -60,7 +61,7 @@ class OutputFacade
      * @var \Shrew\Mazzy\Lib\Core\Collection 
      */
     private $collection;
-    
+     
     /**
      * @var integer 
      */
@@ -69,9 +70,13 @@ class OutputFacade
     public function __construct()
     {
         $config = Config::get("view");
+        $request = Request::getInstance();
+        $assets = (strpos($config["assets"], "://")) ? $config["assets"] : $request->getRootUrl() . $config["assets"];
+        
         Template::setDefaultTheme($config["defaultTheme"]);
         Template::setTheme($config["theme"]);
-        Template::setGlobal("assets", $config["assets"]);
+        Template::setGlobal("assets", $assets);
+        Template::setGlobal("www", $request->getAbsoluteUrl());
         
         $config = Config::get("cache");
         Cache::setPath($config["directory"]);
@@ -85,9 +90,13 @@ class OutputFacade
      * 
      * @param string $template Nom du template à charger
      * @param string $theme Spécifie un thème spécifique
+     * @param string $mime Type mime à utiliser
+     * @param boolean $detect Si à vrai, alors cherchera le mimetype exacte dans
+     *                        la liste disponible par défaut. Sinon la réponse
+     *                        utilisera exactement la valeur de `$mime`.
      * @return \Shrew\Mazzy\Lib\Handler\OutputFacade
      */
-    public function load($template, $theme = null)
+    public function load($template, $theme = null, $mime = "html", $detect = true)
     {
         if ($theme !== null) {
             Template::setTheme($theme);
@@ -95,6 +104,8 @@ class OutputFacade
         $this->name = str_replace("/", ".", $template);
         $this->label = substr($template, strrpos($template, "/"));
         $this->tpl = new Template($template);
+        
+        Response::getInstance()->setType($mime, $detect);
         
         return $this;
     }
@@ -107,7 +118,7 @@ class OutputFacade
      */
     public function cache($life)
     {
-        $this->life = intval($life);
+        $this->life = $life;
         return $this;
     }
     
