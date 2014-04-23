@@ -26,6 +26,8 @@
 
 namespace Shrew\Mazzy\Lib\DataBase;
 
+use Shrew\Mazzy\Lib\Core\Collection;
+
 /**
  * Interface destinée aux modèles (Mvc)
  *
@@ -38,7 +40,7 @@ interface MapperInterface
     /**
      * Insertion d'une nouvelle ligne dans la table
      */
-    public function insert(Shrew\Framework\Lib\Collection $collection);
+    public function insert(Collection $collection);
 
     /**
      * Récupère des lignes dans la table par recherche égalitaire
@@ -58,7 +60,7 @@ interface MapperInterface
     /**
      * Met-à-jour une ligne de la table
      */
-    public function update(Shrew\Framework\Lib\Collection $collection);
+    public function update(Collection $collection);
 
     /**
      * Supprime une ligne dans la table par recherche sur clé primaire
