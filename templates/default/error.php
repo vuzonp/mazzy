@@ -1,7 +1,4 @@
-<?php
-
-use Shrew\Mazzy\Lib\Template\Tpl;
-?>
+<?php use Shrew\Mazzy\Lib\Template\Tpl; ?>
 <html>
     <head>
         <title><?= $name = Tpl::toText($error->name); ?></title>
