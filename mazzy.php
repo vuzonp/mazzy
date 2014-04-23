@@ -27,7 +27,6 @@
 use Shrew\Mazzy\Lib\Core\App;
 use Shrew\Mazzy\Lib\Core\Config;
 use Shrew\Mazzy\Lib\DataBase\DB;
-use Shrew\Mazzy\Lib\Report\Log;
 
 if (defined("APP_WWW") === false) {
     exit();
@@ -72,9 +71,6 @@ try {
     
 // Récupération des exceptions qui se seraient échappées :
 } catch (Exception $e) {
-    
-    Log::alert($e->getMessage(), $e->getFile(), $e->getLine());
-    
     if (Config::isDeveloppment()) {
         trigger_error($e->getMessage(), E_USER_ERROR);
     } else {
