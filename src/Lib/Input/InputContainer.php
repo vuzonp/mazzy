@@ -31,11 +31,13 @@ namespace Shrew\Mazzy\Lib\Input;
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-16
  */
 abstract class InputContainer implements InputContainerInterface
 {
+    /**
+     * Tableau d'instances singletonnes
+     * @var array 
+     */
     private static $instances;
     
     private function __clone() {}
@@ -59,11 +61,17 @@ abstract class InputContainer implements InputContainerInterface
         $this->initialize();
     }
     
+    /**
+     * Initialisation de la classe
+     */
     protected function initialize()
     {
         
     }
 
+    /**
+     * Récupération d'un élément d'input
+     */
     abstract public function get($label);
 
     final public function __get($label)

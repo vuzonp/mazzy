@@ -98,6 +98,7 @@ class Auth
 
     /**
      * Ajoute un rôle et ses droits par défauts à ceux disponibles
+     * 
      * @param string $name Nom à attribuer au rôle (exemple: *editor*) 
      * @param integer $defaultRights Droits par défauts pour les utilisateurs possédant ce rôle
      */
@@ -108,6 +109,7 @@ class Auth
 
     /**
      * Définit le rôle par défaut à appliquer à tout utilisateur inconnu
+     * 
      * @param string $role Un rôle déjà définit
      * @return boolean Vrai quand le groupe peut être déclaré par défaut
      * @throws \DomainException Lorsque le rôle n'a pas été défini
@@ -123,6 +125,7 @@ class Auth
 
     /**
      * Récupère la liste complète des rôles disponibles
+     * 
      * @return array
      */
     public static function listRoles()
@@ -132,6 +135,7 @@ class Auth
 
     /**
      * Vérifie si un rôle existe
+     * 
      * @param string $role
      * @return boolean
      */
@@ -192,6 +196,7 @@ class Auth
 
     /**
      * Définit les autorisations de la ressource
+     * 
      * @param string $role Rôle ciblé
      * @param integer $rights Autorisations accordées à ce rôle par la ressource
      * @throws AppException Lorsque le rôle n'existe pas
@@ -206,6 +211,7 @@ class Auth
 
     /**
      * Vérifie si l'utilisateur a le droit d'effectuer une action
+     * 
      * @param integer $right Action à vérifier
      * @return boolean
      */
@@ -216,6 +222,7 @@ class Auth
 
     /**
      * Vérifie si l'utilisateur a le droit de créer une ressource
+     * 
      * @return boolean
      */
     public function canCreate()
@@ -225,6 +232,7 @@ class Auth
 
     /**
      * Vérifie si l'utilisateur a le droit de lire une ressource
+     * 
      * @return boolean
      */
     public function canRead()
@@ -234,6 +242,7 @@ class Auth
 
     /**
      * Vérifie si l'utilisateur a le droit de mettre à jour une ressource
+     * 
      * @return boolean
      */
     public function canUpdate()
@@ -243,6 +252,7 @@ class Auth
 
     /**
      * Vérifie si l'utilisateur a le droit de détruire une ressource
+     * 
      * @return boolean
      */
     public function canDelete()

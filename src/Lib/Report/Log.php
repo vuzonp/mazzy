@@ -38,8 +38,6 @@ namespace Shrew\Mazzy\Lib\Report;
  *  
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
  */
 class Log
 {
@@ -106,6 +104,7 @@ class Log
 
     /**
      * Chemin de sauvegarde des logs (répertoires)
+     * 
      * Les logs sont sauvegardés au format csv avec des fichiers mensuels séparés
      * (Nettement plus simple que le format syslog pour organiser les infos
      * lors de leur consultation : trie par colonnes + formattage des dates)
@@ -148,6 +147,7 @@ class Log
 
     /**
      * Récupère les derniers logs ne dépendant pas de la requête en cours
+     * 
      * @param integer $maxRows Nombre de lignes à récupérer
      */
     public static function findMany($maxRows = 10)
@@ -191,6 +191,7 @@ class Log
 
     /**
      * Récupère la liste complète des fichiers de logs existants
+     * 
      * @return array
      */
     public static function listFiles($max = null)
@@ -213,6 +214,7 @@ class Log
 
     /**
      * Méthode générique pour ajouter un log
+     * 
      * @param integer $level Type de log
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
@@ -251,6 +253,7 @@ class Log
 
     /**
      * Système inutilisable
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -263,6 +266,7 @@ class Log
 
     /**
      * Une intervention immédiate est nécessaire
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -275,6 +279,7 @@ class Log
 
     /**
      * Erreur critique pour le système
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -287,6 +292,7 @@ class Log
 
     /**
      * Erreur de fonctionnement
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -299,6 +305,7 @@ class Log
 
     /**
      * Avertissement
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -311,6 +318,7 @@ class Log
 
     /**
      * Événement normal méritant d'être signalé
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -323,6 +331,7 @@ class Log
 
     /**
      * Pour information seulement
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -334,6 +343,7 @@ class Log
 
     /**
      * Message de mise au point pour débogage du site
+     * 
      * @param string $message Message de description
      * @param string $file Fichier d'où provient le log (optionnel)
      * @param integer $line Ligne d'où provient le log (optionnel)
@@ -345,6 +355,7 @@ class Log
 
     /**
      * Sauvegarde du log 
+     * 
      * @return boolean
      */
     public static function save()

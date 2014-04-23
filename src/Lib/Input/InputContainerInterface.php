@@ -31,13 +31,17 @@ namespace Shrew\Mazzy\Lib\Input;
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-16
  */
 interface InputContainerInterface
 {
+    /**
+     * L'entrée existe-t-elle ?
+     */
     public function exists($label);
     
+    /**
+     * Récupération d'une entrée
+     */
     public function get($label);
     
     public function __get($label);

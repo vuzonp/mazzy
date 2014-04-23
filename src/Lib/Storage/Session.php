@@ -35,8 +35,6 @@ use Shrew\Mazzy\Lib\Core\Request;
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
  */
 class Session implements \ArrayAccess, \Iterator
 {

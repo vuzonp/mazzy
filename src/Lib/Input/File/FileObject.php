@@ -31,8 +31,7 @@ namespace Shrew\Mazzy\Lib\Input\File;
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-16
+ * @todo Cette classe est en cours d'écriture et reste à finaliser
  */
 class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
 {
@@ -72,6 +71,7 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
 
     /**
      * Le fichier a-t-il rencontré un problème lors de son transfert ?
+     * 
      * @return boolean
      */
     public function hasError()
@@ -81,6 +81,7 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
 
     /**
      * Récupération du code d'erreur renvoyé par php lors du transfert de fichier
+     * 
      * @return integer
      */
     public function getError()
@@ -90,6 +91,7 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
 
     /**
      * Retourne le nom de sauvegarde du fichier
+     * 
      * @return string
      */
     public function getName()
@@ -99,6 +101,7 @@ class FileObject extends \Shrew\Mazzy\Lib\Media\MediaInfo
 
     /**
      * Demande au programme de renommer le fichier 
+     * 
      * @param string|null $name Lorsque null, alors un nom sera généré par la classe
      */
     public function rename($name = null)

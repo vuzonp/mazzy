@@ -32,8 +32,6 @@ namespace Shrew\Mazzy\Lib\Report;
  *  
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
  */
 class Bench
 {
@@ -59,6 +57,7 @@ class Bench
     /**
      * Retourne la consommation de mémoire vive maximale 
      * rencontrée pendant l'exécution du script
+     * 
      * @return float Mémoire vive consommée en Mio
      */
     public static function getMaxMemory()
@@ -74,6 +73,7 @@ class Bench
 
     /**
      * Active la prise en charge de la mémoire vive lors du benchmark
+     * 
      * @return \Shrew\Mazzy\Lib\Report\Bench
      */
     public function enableMemory()
@@ -95,6 +95,7 @@ class Bench
 
     /**
      * Arrête le benchmark et en génère les résultats
+     * 
      * @return \Shrew\Mazzy\Lib\Report\Bench
      */
     public function stop()
@@ -108,6 +109,7 @@ class Bench
 
     /**
      * Retourne le temps d'éxécution du script
+     * 
      * @return float Temps d'éxécution en secondes, arrondi au millième de secondes 
      */
     public function getTimer()
@@ -117,6 +119,7 @@ class Bench
 
     /**
      * Retourne la mémoire vive consommée durant le benchmark
+     * 
      * @return float Mémoire vive consommée en Mio
      */
     public function getMemory()

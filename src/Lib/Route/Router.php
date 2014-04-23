@@ -32,8 +32,6 @@ namespace Shrew\Mazzy\Lib\Route;
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
  */
 class Router implements RouterInterface
 {

@@ -34,8 +34,6 @@ use Shrew\Mazzy\Lib\Storage\Session;
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-13
  */
 class Token
 {
@@ -59,6 +57,7 @@ class Token
 
     /**
      * Initialise le jeton de sécurité
+     * 
      * @param string $name Nom du jeton à charger
      */
     public function __construct($name)
@@ -70,6 +69,7 @@ class Token
 
     /**
      * Récupère le jeton de sécurité généré
+     * 
      * @return string
      */
     public function get()
@@ -79,6 +79,7 @@ class Token
 
     /**
      * Génère et attribue une nouvelle valeur
+     * 
      * @return \Shrew\Mazzy\Lib\Security\Token
      */
     public function generate()
@@ -92,6 +93,7 @@ class Token
 
     /**
      * Vérifie la validité d'un jeton en comparaison avec celui de l'objet
+     * 
      * @param string $token
      * @return boolean
      */

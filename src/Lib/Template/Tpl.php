@@ -36,8 +36,6 @@ namespace Shrew\Mazzy\Lib\Template;
  * 
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-14
  */
 class Tpl
 {
