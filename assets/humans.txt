@@ -4,9 +4,9 @@
 
 # TEAM
 
-	Thomas GIRARD -- Developper -- https://twitter.com/shrewStudio
+    Thomas GIRARD -- Developper -- https://twitter.com/shrewStudio
 
 
 # TECHNOLOGY COLOPHON
 
-	Mazzy Framework
+    Mazzy Framework
