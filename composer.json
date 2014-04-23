@@ -1,7 +1,7 @@
 {
     "name": "shrew/mazzy",
     "description": "Basic framework for quick start (personnals) projects",
-    "version": "v0.1.0-alpha2",
+    "version": "v0.2.0-alpha3",
     "type": "project",
     "keywords": ["framework", "mazzy"],
     "homepage": "https://github.com/shrewstudio/mazzy/wiki",

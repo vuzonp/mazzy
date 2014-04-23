@@ -1,14 +1,18 @@
-mazzy
-=====
+# Mazzy
 
-**Projet de framework basique en php >=5.5 pour démarrage rapide de projets.**
+Mazzy est un framework MVC léger destiné à aider l'écriture de projets Web évolutifs et faciles à déployer. Le cœur du programme est le plus épuré possible et recherche nullement l'exhaustivité tout en prenant soin d'offrir les fonctionnalités les plus importantes au démarrage d'un projet Web.
 
-Mazzy framework est destiné à réaliser des projets de petites et moyenne 
-envergure. L'objectif est de permettre le déploiement sur serveurs mutualisés
-et donc de trouver le compromis acceptable entre un code facile à produire et un
-logiciel rapide à s'éxécuter avec une consommation mémoire minimale.
+**Mazzy est actuellement en phase de développement et ne devrait pas être utilisé en production.** 
 
-**P.S :** *Dans le cas improbable où vous ne vous en seriez pas rendu compte en
-lisant les lignes qui précèdent : ce projet est francophone ;-)*
+Pour les curieux, le nom provient d'un personnage du jeu _Baldur's Gate II_.
 
+## Principales Caractéristiques
 
+* Destiné aux projets modestes
+* PHP >= 5.5
+* Compatible avec Mysql/Sqlite 
+* Internationalisation utilisant les librairies **iconv** et **intl**
+* Traductions utilisant **mb_string**
+* Filtrage des données d'_input_ et sécurisation du rendu html
+* Accepte la rédaction de contenu en markdown
+* Projet francophone (mais ouvert aux traductions s'il y a des amateurs)
