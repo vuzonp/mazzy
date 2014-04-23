@@ -35,7 +35,7 @@ $router = new Router();
 // Espaces de noms des handlers
 //------------------------------------------------------------------------------
 
-$router->pushNamespace("Shrew\Mazzy\Example\Handler");
+$router->pushNamespace("Shrew\Mazzy\Basic\Handler");
 
 
 // Définition des alias de route
@@ -49,8 +49,7 @@ $router->setAliases(":num", "[0-9]+");
 // Routage de l'application
 //------------------------------------------------------------------------------
 
-$router->set("/", "Foo", "barAction");
-$router->set("/query", "Foo", "queryAction");
+$router->set("/", "Home", "indexAction");
 
 
 //------------------------------------------------------------------------------
