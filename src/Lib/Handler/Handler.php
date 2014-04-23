@@ -53,7 +53,13 @@ abstract class Handler
      * @var \Shrew\Mazzy\Lib\Input\Request
      */
     protected $input;
+    
+    /**
+     * @var Shrew\Mazzy\Lib\Handler\OutputFacade
+     */
+    protected $tpl;
 
+    
     public function __construct()
     {
         $this->request = Request::getInstance();
