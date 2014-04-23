@@ -41,8 +41,16 @@ trait Error
      * 
      * @param \Exception $e
      */
-    public function sendException(\Exception $e)
+    final public function sendException(\Exception $e)
     {
+        // Si une précédente exception est trouvée, c'est celle-ci qui est 
+        // affichée en mode développement
+        if (Config::isDeveloppment() && $e->getPrevious()) {
+            while($e->getPrevious() !== null) {
+                $e = $e->getPrevious();
+            }
+        }
+        
         // Récupération des données
         $code = $e->getCode();
         $name = sprintf(_("Erreur %s"), $code);
@@ -72,7 +80,6 @@ trait Error
         try {
             
             $this->tpl->load("error");
-            $this->tpl->cache(3600);
             
             $this->tpl->code = $public["code"];
             $this->tpl->name = $public["name"];
@@ -95,12 +102,11 @@ trait Error
      * @param type $message
      * @param type $code
      */
-    public function sendError($message, $code = 500)
+    final protected function sendError($message, $code = 500)
     {      
         // Retourne l'erreur en html ou bien au format texte
         try {
             $this->tpl->load("error");
-            $this->tpl->cache(3600);
             
             $this->tpl->name = sprintf(_("Erreur %s"), $code);
             $this->tpl->code = $code;

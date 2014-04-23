@@ -65,5 +65,5 @@ interface MapperInterface
     /**
      * Supprime une ligne dans la table par recherche sur clé primaire
      */
-    public function delete($prop, $value);
+    public function delete($id);
 }
