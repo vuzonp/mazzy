@@ -1,9 +1,9 @@
 <?php
 
-/*
- * The MIT License
+/**
+ * The MIT License (MIT)
  *
- * Copyright 2014 thomas.
+ * Copyright (c) 2014 Thomas Girard
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -12,7 +12,7 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall be included in
+ * The above copyright notice and this permission notice shall be included in 
  * all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
@@ -20,8 +20,8 @@
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
  * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
  * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
- * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
- * THE SOFTWARE.
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
  */
 
 namespace Shrew\Mazzy\Lib\Handler;
@@ -34,9 +34,10 @@ use Shrew\Mazzy\Lib\Template\Template;
 
 
 /**
- * Description of HandlerHtml
+ * Génère des réponses à partir des contrôleurs
  *
- * @author thomas
+ * @author  Thomas Girard <thomas@shrewstudio.com>
+ * @license http://opensource.org/licenses/MIT
  */
 class OutputFacade
 {
@@ -44,9 +45,25 @@ class OutputFacade
      * @var \Shrew\Mazzy\Lib\Template\Template 
      */
     private $tpl;
+    
+    /**
+     * @var string 
+     */
     private $name;
+    
+    /**
+     * @var string 
+     */
     private $label;
+    
+    /**
+     * @var \Shrew\Mazzy\Lib\Core\Collection 
+     */
     private $collection;
+    
+    /**
+     * @var integer 
+     */
     private $life;
 
     public function __construct()
@@ -64,9 +81,11 @@ class OutputFacade
     }
     
     /**
+     * Charge et active un template spécifique
      * 
-     * @param type $template
-     * @param type $theme
+     * @param string $template Nom du template à charger
+     * @param string $theme Spécifie un thème spécifique
+     * @return \Shrew\Mazzy\Lib\Handler\OutputFacade
      */
     public function load($template, $theme = null)
     {
@@ -81,8 +100,10 @@ class OutputFacade
     }
     
     /**
+     * Place le résultat en cache 
      * 
-     * @param type $life
+     * @param integer $life Durée de vie maximale du cache
+     * @return \Shrew\Mazzy\Lib\Handler\OutputFacade
      */
     public function cache($life)
     {
@@ -91,9 +112,10 @@ class OutputFacade
     }
     
     /**
+     * Ajoute une valeur à destination de la réponse
      * 
-     * @param type $label
-     * @param type $value
+     * @param string $label
+     * @param mixed $value
      */
     public function set($label, $value)
     {
@@ -107,9 +129,8 @@ class OutputFacade
     }
     
     /**
-     * 
-     * @param type $label
-     * @param type $value
+     * @param string $label
+     * @param mixed $value
      */
     public function __set($label, $value)
     {
@@ -117,8 +138,12 @@ class OutputFacade
     }
     
     /**
+     * Compilation de la vue et envoi de la réponse
      * 
-     * @param type $status
+     * Cette méthode utilise un système de cache lorsque le contenu n'a pas
+     * évolué et si le template n'a pas été édité depuis la création du cache.
+     * 
+     * @param integer $status Status http de la réponse
      */
     public function render($status = 200)
     {

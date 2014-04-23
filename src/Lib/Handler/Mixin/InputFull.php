@@ -30,30 +30,56 @@ use Shrew\Mazzy\Lib\Input\Input;
 
 
 /**
- * Description of FileInput
+ * Complète le système d'input par défaut des contrôleurs
  *
- * @author thomas
+ * @author  Thomas Girard <thomas@shrewstudio.com>
+ * @license http://opensource.org/licenses/MIT
  */
 trait InputFull
 {
     
     use Session;
 
+    /**
+     * Récupère sans distinction de type une donnée d'input
+     * 
+     * @param string $label
+     * @return mixed|Shrew\Mazzy\Lib\Input\File\FileObject
+     */
     protected function get($label)
     {
         return Input::get($label);
     }
 
-    protected function getInput($label)
+    /**
+     * Récupération et filtrage d'une donnée de type input (hors fichiers)
+     * 
+     * @param string $label
+     * @param integer $filter L'ID du filtre à appliquer. (voir page du manuel)[http://fr2.php.net/manual/fr/filter.filters.php]. 
+     * @param mixed $options Tableau associatif d'options ou des drapeaux
+     * @return mixed
+     */
+    protected function getInput($label, $filter = null, $options = null)
     {
-        return Input::getRequest($label);
+        return Input::getRequest($label, $filter, $options);
     }
 
+    /**
+     * Récupération d'un fichier d'input
+     * 
+     * @param string $label
+     * @return \Shrew\Mazzy\Lib\Input\File\FileObject
+     */
     protected function getUpload($label)
     {
         return Input::getFile($label);
     }
 
+    /**
+     * Récupération de l'ensemble des fichiers d'input
+     * 
+     * @return \Shrew\Mazzy\Lib\Input\File\Upload
+     */
     protected function getUploads()
     {
         return Input::getFiles();

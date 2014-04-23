@@ -27,12 +27,10 @@
 namespace Shrew\Mazzy\Lib\DataBase;
 
 /**
- * *Database Abstraction Layer* étendant PDO
+ * _Database Abstraction Layer_ étendant PDO
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
- * @version v0.1.0-alpha2
- * @since   2014-04-14
  */
 class DataBaseHandler extends \PDO implements \Countable
 {
@@ -42,6 +40,12 @@ class DataBaseHandler extends \PDO implements \Countable
      */
     private $counter;
 
+    /**
+     * @param string $dsn Data Source Name qui contient les informations requises pour se connecter à la base.
+     * @param string $username Le nom d'utilisateur pour la chaîne DSN
+     * @param string $passwd Le mot de passe de la chaîne DSN
+     * @param array $options Options spécifiques de connexion
+     */
     public function __construct($dsn, $username = null, $passwd = null, Array $options = null)
     {
         parent::__construct($dsn, $username, $passwd, $options);
