@@ -64,7 +64,7 @@ abstract class Mapper implements MapperInterface
         $this->initialize();
 
         if ($this->table === null) {
-            $this->table = lcfirst(get_called_class()) . "s";
+            $this->table = lcfirst(substr(get_called_class(), strlen(__NAMESPACE__) + 1)) . "s";
         }
     }
 
