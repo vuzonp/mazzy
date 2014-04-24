@@ -230,19 +230,19 @@ class Log
             if ($level === self::DEBUG) {
                 $levelStr = "DEBUG";
             } elseif ($level === self::INFO) {
-                $levelStr = "DEBUG";
+                $levelStr = "INFO";
             } elseif ($level === self::NOTICE) {
-                $levelStr = "DEBUG";
+                $levelStr = "NOTICE";
             } elseif ($level === self::WARNING) {
-                $levelStr = "DEBUG";
+                $levelStr = "WARNING";
             } elseif ($level === self::ERROR) {
-                $levelStr = "DEBUG";
+                $levelStr = "ERROR";
             } elseif ($level === self::CRITICAL) {
-                $levelStr = "DEBUG";
+                $levelStr = "CRITICAL";
             } elseif ($level === self::ALERT) {
-                $levelStr = "DEBUG";
+                $levelStr = "ALERT";
             } elseif ($level === self::EMERGENCY) {
-                $levelStr = "DEBUG";
+                $levelStr = "EMERGENCY";
             } else {
                 $levelStr = "UNKNOWN";
             }

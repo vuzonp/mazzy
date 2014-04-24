@@ -114,6 +114,9 @@ class Bench
      */
     public function getTimer()
     {
+        if ($this->time > 1300000000) {
+            $this->stop();
+        }
         return $this->time;
     }
 
