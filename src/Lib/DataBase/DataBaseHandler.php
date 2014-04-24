@@ -26,6 +26,10 @@
 
 namespace Shrew\Mazzy\Lib\DataBase;
 
+use Shrew\Mazzy\Lib\Report\Bench;
+use Shrew\Mazzy\Lib\Report\Log;
+
+
 /**
  * _Database Abstraction Layer_ étendant PDO
  *
@@ -67,7 +71,7 @@ class DataBaseHandler extends \PDO implements \Countable
     {
         $this->counter++;
     }
-
+    
     /**
      * Exécute une requête SQL, retourne un jeu de résultats en tant qu'objet 
      * 
@@ -75,8 +79,13 @@ class DataBaseHandler extends \PDO implements \Countable
      */
     public function query($statement)
     {
+        $bench = new Bench();
+        $result = parent::query($statement);
+        $time = $bench->getTimer();
+        Log::debug("Requête SQL : $statement (tps : $time sec)");
         $this->increment();
-        parent::query($statement);
+        
+        return $result;
     }
 
     /**

@@ -27,6 +27,8 @@
 namespace Shrew\Mazzy\Lib\DataBase;
 
 use Shrew\Mazzy\Lib\Core\Collection;
+use Shrew\Mazzy\Lib\Report\Bench;
+use Shrew\Mazzy\Lib\Report\Log;
 
 
 /**
@@ -70,8 +72,14 @@ class Statement extends \PDOStatement
      */
     public function execute($input_parameters = null)
     {
+        $bench = new Bench();
+        $result = parent::execute($input_parameters);
+        $time = $bench->getTimer();
+        
+        Log::debug("Requête SQL : {$this->queryString} (tps: $time sec)");
         $this->dbh->increment();
-        return parent::execute($input_parameters);
+        
+        return $result;
     }
 
     /**
