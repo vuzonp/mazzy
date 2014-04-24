@@ -90,7 +90,13 @@ class Statement extends \PDOStatement
     public function fetchCollection()
     {
         $row = parent::fetch();
-        return new Collection($row);
+        if ($row === false) {
+            Log::warning("La requête *$this->queryString* n'a pas retourné de résultat(s)");
+            return new Collection();
+        }
+        else {
+            return new Collection($row);
+        }
     }
 
     /**
@@ -102,7 +108,13 @@ class Statement extends \PDOStatement
     public function fetchAllCollection()
     {
         $rows = parent::fetchAll();
-        return new Collection($rows);
+        if ($rows === false) {
+            Log::warning("La requête _{$this->queryString}_ n'a pas retourné de résultat(s)");
+            return new Collection();
+        }
+        else {
+            return new Collection($rows);
+        }
     }
 
 }
