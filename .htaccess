@@ -6,10 +6,13 @@
 # URL REWRITING
 #-------------------------------------------------------------------------------
 
-rewriteEngine on
-Options +FollowSymLinks
+<IfModule mod_rewrite.c>
+    rewriteEngine On
+    Options +FollowSymLinks
+    SetEnv HTTP_MOD_REWRITE On
 
-RewriteBase /
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^(.*)$ index.php/$1 [NC,L,QSA]
+    #RewriteBase /
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php/$1 [NC,L,QSA]
+</IfModule>
