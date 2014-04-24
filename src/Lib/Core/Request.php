@@ -144,7 +144,12 @@ class Request
     final public function getPath()
     {
         if ($this->path === null) {
-            $path = $this->get("PATH_INFO", FILTER_SANITIZE_URL);
+            
+            if ($this->isRewrited()) {
+                $path = $this->get("REQUEST_URI", FILTER_SANITIZE_URL);
+            } else {
+                $path = $this->get("PATH_INFO", FILTER_SANITIZE_URL);
+            }
             if ($path === null) {
                 $path = "/";
             }
@@ -250,10 +255,7 @@ class Request
     final public function isRewrited()
     {
         if ($this->modRewrite === null) {
-            $uri = $this->get("REQUEST_URI");
-            if ($uri !== null) {
-                return (strpos("index.php", $uri) !== false) ? true : false;
-            } elseif (function_exists("apache_get_modules")) {
+            if (function_exists("apache_get_modules")) {
                 $modules = apache_get_modules();
                 $this->modRewrite = in_array("mod_rewrite", $modules);
             } else {

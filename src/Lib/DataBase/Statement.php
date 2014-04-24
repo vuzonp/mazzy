@@ -27,6 +27,8 @@
 namespace Shrew\Mazzy\Lib\DataBase;
 
 use Shrew\Mazzy\Lib\Core\Collection;
+use Shrew\Mazzy\Lib\Report\Bench;
+use Shrew\Mazzy\Lib\Report\Log;
 
 
 /**
@@ -70,8 +72,14 @@ class Statement extends \PDOStatement
      */
     public function execute($input_parameters = null)
     {
+        $bench = new Bench();
+        $result = parent::execute($input_parameters);
+        $time = $bench->getTimer();
+        
+        Log::debug("Requête SQL : {$this->queryString} (tps: $time sec)");
         $this->dbh->increment();
-        return parent::execute($input_parameters);
+        
+        return $result;
     }
 
     /**
@@ -82,7 +90,13 @@ class Statement extends \PDOStatement
     public function fetchCollection()
     {
         $row = parent::fetch();
-        return new Collection($row);
+        if ($row === false) {
+            Log::warning("La requête *$this->queryString* n'a pas retourné de résultat(s)");
+            return new Collection();
+        }
+        else {
+            return new Collection($row);
+        }
     }
 
     /**
@@ -94,7 +108,13 @@ class Statement extends \PDOStatement
     public function fetchAllCollection()
     {
         $rows = parent::fetchAll();
-        return new Collection($rows);
+        if ($rows === false) {
+            Log::warning("La requête _{$this->queryString}_ n'a pas retourné de résultat(s)");
+            return new Collection();
+        }
+        else {
+            return new Collection($rows);
+        }
     }
 
 }
