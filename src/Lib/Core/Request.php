@@ -144,7 +144,12 @@ class Request
     final public function getPath()
     {
         if ($this->path === null) {
-            $path = $this->get("PATH_INFO", FILTER_SANITIZE_URL);
+            
+            if ($this->isRewrited()) {
+                $path = $this->get("REQUEST_URI", FILTER_SANITIZE_URL);
+            } else {
+                $path = $this->get("PATH_INFO", FILTER_SANITIZE_URL);
+            }
             if ($path === null) {
                 $path = "/";
             }
