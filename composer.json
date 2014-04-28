@@ -1,11 +1,9 @@
 {
     "name": "shrew/mazzy",
     "description": "Basic framework for quick start (personnals) projects",
-    "version": "v0.2.0-alpha3",
-    "type": "project",
+    "version": "v0.4.0-alpha4",
     "keywords": ["framework", "mazzy"],
-    "homepage": "https://github.com/shrewstudio/mazzy/wiki",
-    "time": "2014-04-13",
+    "time": "2014-04-28",
     "license": "MIT",
     
     "authors": [
@@ -27,6 +25,7 @@
     },
     "require": {
     	"php": ">=5.5.0",
+        "psr/log": "~1.0",
         "ezyang/htmlpurifier": "dev-master",
         "erusev/parsedown": "dev-master"
     },
@@ -34,14 +33,8 @@
     "autoload": {
         "psr-4": {
             "Shrew\\Mazzy\\": "src/",
-            "Shrew\\Mazzy\\Test\\": "tests"
+            "Shrew\\Mazzy\\": "tests/"
         },
         "classmap": ["src/"]
-    },
-    "repositories": [
-    	{
-    		"type": "vcs",
-    		"url": "https://github.com/shrewstudio/mazzy"
-    	}
-    ]
+    }
 }
