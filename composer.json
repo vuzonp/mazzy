@@ -36,11 +36,5 @@
             "Shrew\\Mazzy\\": "tests/"
         },
         "classmap": ["src/"]
-    },
-    "repositories": [
-    	{
-            "type": "vcs",
-            "url": "https://github.com/shrewstudio/mazzy"
-    	}
-    ]
+    }
 }
