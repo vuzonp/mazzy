@@ -227,7 +227,7 @@ class Router implements \IteratorAggregate
         $pattern = str_replace($this->paramSearch, $this->paramReplace, $urlPattern);
         $pattern = "!^" . $pattern . "$!i";
         
-        if (preg_match_all($pattern, $this->uri, $matches) > 0) {
+        if (preg_match_all($pattern, $this->url, $matches) > 0) {
                 return array_column(array_slice($matches, 1), 0);
         }
         
