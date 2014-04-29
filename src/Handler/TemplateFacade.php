@@ -69,6 +69,7 @@ class TemplateFacade
     public function __construct(HttpRequest $request, HttpResponse $response, Config $settings)
     {
         $www = $request->getRootUrl();
+        $burl = $request->getAbsoluteUrl();
         $assets = $settings->get("view.assets", null);
         
         if ($assets === null) {
@@ -78,6 +79,8 @@ class TemplateFacade
         }
         
         Template::setGlobal("www", $www);
+        Template::setGlobal("burl", $burl);
+        Template::setGlobal("self", $burl . $request->getPath());
         Template::setGlobal("assets", $assets);
         Template::setGlobal("charset", $response->getCharset());
         $this->queue = array();
