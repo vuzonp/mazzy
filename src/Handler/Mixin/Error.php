@@ -72,13 +72,11 @@ trait Error
             $public["file"] = null;
             $public["line"] = null;
             $public["trace"] = null;
-            $public["debug"] = null;
         } else {
             $public["message"] = $message;
             $public["file"] = $file;
             $public["line"] = $line;
             $public["trace"] = $trace;
-            $public["debug"] = debug_backtrace();
         }
 
         // Retourne l'erreur en html ou bien au format texte
