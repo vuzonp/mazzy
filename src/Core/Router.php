@@ -114,7 +114,7 @@ class Router implements \IteratorAggregate
     {
         if ($this->found === false && $verb === $this->verb && ($params = $this->getParameters($urlPattern)) !== false) {
             $rsc = new \stdClass;
-            $rsc->namespace = ($this->namespace->valid()) ? $this->namespace->top() : null;
+            $rsc->namespace = ($this->namespace->isEmpty()) ? null : $this->namespace->top();
             $rsc->handler = $resource;
             $rsc->method = $action;
             $rsc->params = $params;
