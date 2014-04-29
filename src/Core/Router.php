@@ -78,7 +78,7 @@ class Router implements \IteratorAggregate
     public function param($param, $regex) 
     {        
         $this->paramSearch[] = ":" . ltrim($param, ":");
-        $this->paramReplace[] = $regex;
+        $this->paramReplace[] = "($regex)";
     }
 
     /**
@@ -225,7 +225,7 @@ class Router implements \IteratorAggregate
         // Transforme la route en motif regex
         $matches = array();
         $pattern = str_replace($this->paramSearch, $this->paramReplace, $urlPattern);
-        $pattern = "!^" . $pattern . "$!i";
+        $pattern = "!^$pattern$!i";
         
         if (preg_match_all($pattern, $this->url, $matches) > 0) {
                 return array_column(array_slice($matches, 1), 0);
