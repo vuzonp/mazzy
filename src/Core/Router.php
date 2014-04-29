@@ -100,9 +100,10 @@ class Router implements \IteratorAggregate
      * @param string $urlPattern Motif d'identification de l'url
      * @param \Closure|string $resource Une fonction de callback ou un nom de classe
      * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
      * @return \Shrew\Mazzy\Core\Router
      */
-    public function add($verb, $urlPattern, $resource, $action = null, $next = false) 
+    public function add($verb, $urlPattern, $resource, $action = null, $break = true) 
     {
         if ($this->found === false && $verb === $this->verb && ($params = $this->getParameters($urlPattern)) !== false) {
             $rsc = new \stdClass;
@@ -112,16 +113,23 @@ class Router implements \IteratorAggregate
             $rsc->params = $params;
             $this->buffer->enqueue($rsc);
             
-            $this->found = ($next !== true) ? true : false;
-            
+            $this->found = (bool) $break;
         }
-        
         return $this;
     }
     
-    final public function middleware($urlPattern, $resource, $action = null)
+    /**
+     * Hameçonne la requête pour une action intermédiaire sur une requête
+     * 
+     * @param string $urlPattern Motif d'identification de l'url
+     * @param \Closure|string $resource Une fonction de callback ou un nom de classe
+     * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
+     * @return \Shrew\Mazzy\Core\Router
+     */
+    final public function hook($urlPattern, $resource, $action = null)
     {
-        return $this->add($this->verb, $urlPattern, $resource, $action, true);
+        return $this->add($this->verb, $urlPattern, $resource, $action, false);
     }
     
     /**
@@ -130,11 +138,12 @@ class Router implements \IteratorAggregate
      * @param string $urlPattern Motif d'identification de l'url
      * @param \Closure|string $resource Une fonction de callback ou un nom de classe
      * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
      * @return \Shrew\Mazzy\Core\Router
      */
-    final public function all($urlPattern, $resource, $action = null, $next = false)
+    final public function all($urlPattern, $resource, $action = null, $break = true)
     {
-        return $this->add($this->verb, $urlPattern, $resource, $action, $next);
+        return $this->add($this->verb, $urlPattern, $resource, $action, $break);
     }
     
     /**
@@ -143,11 +152,12 @@ class Router implements \IteratorAggregate
      * @param string $urlPattern Motif d'identification de l'url
      * @param \Closure|string $resource Une fonction de callback ou un nom de classe
      * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
      * @return \Shrew\Mazzy\Core\Router
      */
-    final public function post($urlPattern, $resource, $action = null, $next = false)
+    final public function post($urlPattern, $resource, $action = null, $break = true)
     {
-        return $this->add("POST", $urlPattern, $resource, $action, $next);
+        return $this->add("POST", $urlPattern, $resource, $action, $break);
     }
     
     /**
@@ -156,11 +166,12 @@ class Router implements \IteratorAggregate
      * @param string $urlPattern Motif d'identification de l'url
      * @param \Closure|string $resource Une fonction de callback ou un nom de classe
      * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
      * @return \Shrew\Mazzy\Core\Router
      */
-    final public function get($urlPattern, $resource, $action = null, $next = false)
+    final public function get($urlPattern, $resource, $action = null, $break = true)
     {
-        return $this->add("GET", $urlPattern, $resource, $action, $next);
+        return $this->add("GET", $urlPattern, $resource, $action, $break);
     }
     
     /**
@@ -169,11 +180,12 @@ class Router implements \IteratorAggregate
      * @param string $urlPattern Motif d'identification de l'url
      * @param \Closure|string $resource Une fonction de callback ou un nom de classe
      * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
      * @return \Shrew\Mazzy\Core\Router
      */
-    final public function put($urlPattern, $resource, $action = null, $next = false)
+    final public function put($urlPattern, $resource, $action = null, $break = true)
     {
-        return $this->add("PUT", $urlPattern, $resource, $action, $next);
+        return $this->add("PUT", $urlPattern, $resource, $action, $break);
     }
     
     /**
@@ -182,11 +194,12 @@ class Router implements \IteratorAggregate
      * @param string $urlPattern Motif d'identification de l'url
      * @param \Closure|string $resource Une fonction de callback ou un nom de classe
      * @param null|string $action Si $resource est une classe, alors représente sa méthode
+     * @param boolean $break Continuer l'exécution ou (false) s'arrêter à ce niveau 
      * @return \Shrew\Mazzy\Core\Router
      */
-    final public function delete($urlPattern, $resource, $action = null, $next = false)
+    final public function delete($urlPattern, $resource, $action = null, $break = true)
     {
-        return $this->add("DELETE", $urlPattern, $resource, $action, $next);
+        return $this->add("DELETE", $urlPattern, $resource, $action, $break);
     }
     
     /**
