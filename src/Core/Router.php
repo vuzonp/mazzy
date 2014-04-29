@@ -54,6 +54,7 @@ class Router implements \IteratorAggregate
      */
     public function __construct($verb, $url)
     {
+        $this->namespace = new \SplStack();
         $this->buffer = new \SplQueue();
         $this->found = false;
         $this->verb = $verb;
@@ -87,9 +88,15 @@ class Router implements \IteratorAggregate
      *                          pour les classes associées aux routes
      * @return \Shrew\Mazzy\Core\Router
      */
-    public function setNamespace($namespace)
+    public function pushNamespace($namespace)
     {
-        $this->namespace = trim($namespace, "\\") . "\\";
+        $this->namespace->push(trim($namespace, "\\") . "\\");
+        return $this;
+    }
+    
+    public function popNamespace()
+    {
+        $this->namespace->pop();
         return $this;
     }
 
@@ -107,7 +114,7 @@ class Router implements \IteratorAggregate
     {
         if ($this->found === false && $verb === $this->verb && ($params = $this->getParameters($urlPattern)) !== false) {
             $rsc = new \stdClass;
-            $rsc->namespace = $this->namespace;
+            $rsc->namespace = $this->namespace->top();
             $rsc->handler = $resource;
             $rsc->method = $action;
             $rsc->params = $params;
