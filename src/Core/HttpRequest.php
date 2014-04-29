@@ -162,7 +162,7 @@ class HttpRequest
             $this->urlAbsolute .= $this->getRootUrl();
 
             if ($this->isRewrited() !== true) {
-                $this->urlAbsolute .= "/index.php";
+                $this->urlAbsolute .= "index.php";
             }
         }
         return $this->urlAbsolute;
@@ -206,7 +206,7 @@ class HttpRequest
         if ($this->baseUrl === null) {
             $needle = $this->server->get("DOCUMENT_ROOT");
             $baseUrl = substr($this->www, strlen($needle));
-            $this->baseUrl = ($baseUrl === false) ? "" : $baseUrl;
+            $this->baseUrl = ($baseUrl === false) ? "/" : $baseUrl;
         }
         return $this->baseUrl;
     }
