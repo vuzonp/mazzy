@@ -177,7 +177,7 @@ class HttpRequest
     {
         if ($this->path === null) {
 
-            if ($this->isRewrited()) {
+            if ($this->isRewrited() === true) {
                 $uri = $this->server->get("REQUEST_URI", FILTER_SANITIZE_URL);
                 $path = substr($uri, strpos($uri, "?"));
             } else {
@@ -293,7 +293,7 @@ class HttpRequest
     final public function isRewrited()
     {
         if ($this->modRewrite === null) {
-            $this->modRewrite = filter_var(getenv("HTTP_MOD_REWRITE"), FILTER_VALIDATE_BOOLEAN);
+             $this->modRewrite = filter_var(getenv("HTTP_MOD_REWRITE"), FILTER_VALIDATE_BOOLEAN);
         }
         return $this->modRewrite;
     }
