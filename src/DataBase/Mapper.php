@@ -185,7 +185,7 @@ abstract class Mapper implements MapperInterface
      */
     public function findByPrimary($id)
     {
-        return $this->findOrder($this->primary, $id, \PDO::PARAM_INT);
+        return $this->findOrder($this->primary, $id, \PDO::PARAM_INT, 1);
     }
     
     /**
