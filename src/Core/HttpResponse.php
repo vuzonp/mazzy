@@ -256,7 +256,7 @@ class HttpResponse
      */
     public function redirect($url, $status = 307)
     {
-        $url = Request::getInstance()->getAbsoluteUrl() . $url;
+        $url = HttpRequest::getInstance()->getAbsoluteUrl() . $url;
         $this->location($url, $status);
     }
 
