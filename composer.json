@@ -32,8 +32,7 @@
     
     "autoload": {
         "psr-4": {
-            "Shrew\\Mazzy\\": "src/",
-            "Shrew\\Mazzy\\": "tests/"
+            "Shrew\\Mazzy\\": "src/"
         },
         "classmap": ["src/"]
     }
