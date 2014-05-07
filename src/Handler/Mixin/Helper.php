@@ -73,7 +73,7 @@ trait Helper
         if ($length > $maxWords) {
             $keywords = array();
             foreach ($words as $word) {
-                $keywords[$word] = mb_strlen($str, APP_CHARSET);
+                $keywords[$word] = mb_strlen($word);
             }
 
             // Trie le tableau par tailles des mots
@@ -111,8 +111,8 @@ trait Helper
         $words = $this->getKeywords($str, $maxWords);
         
         // Création de la chaîne d'url
-        $slug = mb_strtolower(implode("-", $words), APP_CHARSET);
-        $slug = @iconv(APP_CHARSET, "us-ascii//TRANSLIT", $slug);
+        $slug = mb_strtolower(implode("-", $words));
+        $slug = @iconv(iconv_get_encoding("input_encoding"), "us-ascii//TRANSLIT", $slug);
 
         if (empty($slug)) {
             return "n-a";
