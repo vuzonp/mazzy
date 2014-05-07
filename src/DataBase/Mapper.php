@@ -121,7 +121,7 @@ abstract class Mapper implements MapperInterface
      * @param array $orderBy Directives de tri des donnees
      * @return array
      */
-    public function findOrder($prop, $value, $type = \PDO::PARAM_STR, $limit = 0, array $orderBy = array())
+    public function findOrder($prop, $value, $type = \PDO::PARAM_STR, $limit = 99, array $orderBy = array())
     {
         $sort = $this->orderByFormat($orderBy);
         $statement = "SELECT * FROM {$this->table} WHERE $prop=:value LIMIT :limit $sort";
@@ -159,7 +159,7 @@ abstract class Mapper implements MapperInterface
      * @param integer $limit Nombre maximal de resultats a retouner
      * @return array
      */
-    public function findMany($prop, $value, $type = null, $limit = null)
+    public function findMany($prop, $value, $type = null, $limit = 99)
     {
         return $this->findOrder($prop, $value, $type, $limit);
     }
