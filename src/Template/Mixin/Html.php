@@ -94,5 +94,15 @@ trait Html
         // nettoyage du code html
         return self::$strHtmlCleaner->purify($html);
     }
+    
+    /**
+     * Prépare une chaîne de texte pour être passée en URL
+     * @param string $str
+     * @return string
+     */
+    public static function toUrl($str) 
+    {
+        return rawurlencode($str);
+    }
 
 }
