@@ -87,6 +87,11 @@ class HttpRequest
     {
         $this->www = $directory;
     }
+    
+    final public function get($label)
+    {
+        return $this->server->get($label);
+    }
 
     /**
      * Récupère l'environnement de travail de la requête 
