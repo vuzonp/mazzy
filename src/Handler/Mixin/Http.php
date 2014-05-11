@@ -51,6 +51,55 @@ trait Http
         }
         return false;
     }
+    
+    /**
+     * 
+     * @param type $uid
+     */
+    protected function etag($uid = null, $strong = true)
+    {
+        if (is_bool($strong) === false) {
+            throw new \Exception("Mauvaise configuration de etag", 500);
+        }
+        
+        $value = "\"$uid\"";
+        if ($strong === false) {
+            $value = "W/" . $value;
+        }
+        
+        $this->response->setHeader("ETag", $value);
+        
+        if ($etagsHeader = $this->request->get("HTTP_IF_NONE_MATCH")) {
+            $etags = preg_split('@\s*,\s*@', $etagsHeader);
+            if (in_array($value, $etags) || in_array('*', $etags)) {
+                $this->response->send("", 304);
+            }
+        }
+    }
+    
+    /**
+     * 
+     */
+    protected function lastModified($time)
+    {
+        $modified = new \DateTimeImmutable($time);
+        $time = $modified->format(\DateTime::RFC1123);
+        
+        $this->response->setHeader("Last-Modified", $time);
+        
+        if ($time === $this->request->get("HTTP_IF_MODIFIED_SINCE")) {
+            $this->response->send("", 304);
+        }
+    }
+    
+    /**
+     * 
+     */
+    protected function expires($time)
+    {
+        $expires = new \DateTimeImmutable($time);
+        $this->response->setHeader("Expires", $expires->format(\DateTime::RFC1123));
+    }
 
     /**
      * Effectue une redirection http
