@@ -23,13 +23,19 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
+
 namespace Shrew\Mazzy\Core;
 
 use Shrew\Mazzy\Input\Input;
 
 
 /**
- * Gestion securisée des informations de requête 
+ * Gestionnaire securisé des informations de requête 
+ *
+ * Cette classe rend disponible plusieurs informations de requêtes et
+ * d'environnement en les filtrant et en les traitant préalablement.
+ *
+ * Il s'agit d'une surcouche spécialisée de `\Shrew\Mazzy\Input\Server`
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
@@ -81,6 +87,7 @@ class HttpRequest
     
     /**
      * Définit le chemin absolu vers le contenu publique du projet
+     *
      * @param string $directory
      */
     public function setPublicDirectory($directory)
@@ -88,6 +95,11 @@ class HttpRequest
         $this->www = $directory;
     }
     
+    /**
+     * Lien vers `\Shrew\Mazzy\Input\Server`
+     *
+     * @see \Shrew\Mazzy\Input\Server
+     */
     final public function get($label)
     {
         return $this->server->get($label);
@@ -108,6 +120,8 @@ class HttpRequest
     }
 
     /**
+     * Vérfie si l'application est exécutée dans un contexte de production
+     *
      * @return boolean
      */
     final public function isProduction()
@@ -116,6 +130,8 @@ class HttpRequest
     }
 
     /**
+     * Vérfie si l'application est exécutée dans un contexte de développement
+     *
      * @return boolean
      */
     final public function isDeveloppment()
@@ -124,21 +140,27 @@ class HttpRequest
     }
 
     /**
-     * Récupération de la méthode de requête http 
+     * Récupération de la méthode de requête http
      *
-     * @return string
+     * @return string (POST, GET, PUT, DELETE, OPTION)
      */
     final public function getMethod()
     {
         if ($this->method === null) {
             $method = $this->server->get("REQUEST_METHOD");
-            $this->method = strtoupper($method);
+            $method = strtoupper($method);
+            
+            if (in_array($method, array("POST", "GET", "PUT", "DELETE", "OPTION"))) {
+                $this->method = $method;
+            } else {
+                throw new \Exception("Méthode de requête non autorisée : _$method_", 405);
+            }
         }
         return $this->method;
     }
 
     /**
-     * Retourne l'url absolue de la page actuelle sans les queries string
+     * Retourne l'url absolue de la page actuelle sans les *queries string*
      *
      * @return string
      */
@@ -176,12 +198,13 @@ class HttpRequest
     /**
      * Retourne l'url de la page chargée
      *
+     * @todo Rendre compatible avec les autres serveurs que Apache
      * @return string
      */
     final public function getPath()
     {
         if ($this->path === null) {
-
+            // Utilise une technique différente si la réécriture d'url est activée.
             if ($this->isRewrited() === true) {
                 $uri = $this->server->get("REQUEST_URI", FILTER_SANITIZE_URL);
                 $path = substr($uri, strpos($uri, "?"));
@@ -191,7 +214,7 @@ class HttpRequest
             if ($path === null) {
                 $path = "/";
             } else {
-                // decriptage des urls
+                // décryptage des urls
                 $encoded = explode("/", $path);
                 $decoded = array_map("rawurldecode", $encoded);
                 $path = implode("/", $decoded);
@@ -260,7 +283,7 @@ class HttpRequest
     }
 
     /**
-     * La requete est-elle de type ajax ?
+     * La requête est-elle de type ajax ?
      *
      * @return boolean
      */
