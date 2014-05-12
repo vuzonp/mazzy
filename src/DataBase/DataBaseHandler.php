@@ -63,6 +63,9 @@ class DataBaseHandler extends \PDO implements \Countable
         return $this->counter;
     }
 
+    /**
+     * Incrémente le compteur de requête
+     */
     final public function increment()
     {
         $this->counter++;

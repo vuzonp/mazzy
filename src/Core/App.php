@@ -34,7 +34,9 @@ use Psr\Log\LogLevel;
 
 
 /**
- * Classe principale
+ * Classe principale du framework
+ *
+ * Permet d'initialiser l'application et d'éxécuter la requête
  *
  * @author  Thomas Girard <thomas@shrewstudio.com>
  * @license http://opensource.org/licenses/MIT
@@ -136,20 +138,23 @@ class App implements LoggerAwareInterface
      */
     private function initCharset($charset)
     {
+        // mb_string
         mb_internal_encoding($charset);
         mb_language("uni");
 
+        // iconv
         iconv_set_encoding("internal_encoding", $charset);
         iconv_set_encoding("input_encoding", $charset);
         iconv_set_encoding("output_encoding", $charset);
     }
 
     /**
-     * Ajoute une option de configuration
+     * Définit une option de configuration
      * 
-     * @param string $label
-     * @param mixed $value
-     * @param string $env
+     * @param string $label Identifiant de l'option
+     * @param mixed $value Valeur de l'option
+     * @param string $env Environnement concerné par l'option 
+     *                    (*developpment*, *production*, *all*)
      */
     final public function set($label, $value, $env = "all")
     {
@@ -161,8 +166,9 @@ class App implements LoggerAwareInterface
     /**
      * Attache une base de données à l'application
      * 
-     * @param string $label
-     * @param array $config
+     * @param string $label Identifiant de la connexion
+     * @param array $config Configuration de la connexion
+     * @see \Shrew\Mazzy\Database\DB::attach()
      */
     final public function setDatabase($label, array $config)
     {
@@ -200,6 +206,7 @@ class App implements LoggerAwareInterface
         }
         
         try {
+            // Tâches d'initialisations automatiques
             $this->setup();
 
             // Aucune route n'a été trouvée
@@ -252,7 +259,7 @@ class App implements LoggerAwareInterface
     }
 
     /**
-     * Exécute une ressource placée dans une classe contrôleur
+     * Exécute une ressource placée au sein d'une classe contrôleur
      * 
      * @param \stdClass $rsc
      * @return mixed

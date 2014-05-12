@@ -163,6 +163,9 @@ class HttpResponse
         }
     }
     
+    /**
+     * Récupère l'encodage utilisé pour la réponse
+     */
     public function getCharset()
     {
         return $this->charset;
@@ -296,6 +299,20 @@ class HttpResponse
     }
 
     /**
+     * Envoi les entêtes sans le corps au client
+     */
+    public function out($status = null)
+    {
+        if ($status !== null) {
+            $this->setStatus($status);
+        }
+
+        $this->isSent = true;
+        $this->sendHeaders();
+        exit;
+    }
+
+    /**
      * Envoi la réponse complète au client
      */
     public function send($body = null, $status = null)
@@ -321,11 +338,7 @@ class HttpResponse
      */
     public function sendError($message, $status = 500)
     {
-        if ($message instanceof OutputInterface) {
-            $this->render($message, $status);
-        } else {
-            $this->reset()->setStatus($status)->setType("text")->setBody($message)->send();
-        }
+        $this->reset()->setStatus($status)->setType("text")->setBody($message)->send();
     }
 
     /**
